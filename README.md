@@ -1,6 +1,10 @@
 ## 博客首页
 
-笔记用途
+本项目主要是用来做个人的博客使用，用与个人知识积累和分享。
+
+我是21届的毕业生，主要从事JavaWeb后端的工作，有可能以后会做大数据方向。
+
+如果有任何问题可以联系我，我的邮箱是：2287360627@qq.com
 
 ### Markdown
 
@@ -33,3 +37,4 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+

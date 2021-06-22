@@ -34,6 +34,8 @@
 
 - MapReduce（分布式计算框架（磁盘））
 
+  ![图1 MapReduce执行流程](https://bkimg.cdn.bcebos.com/pic/5882b2b7d0a20cf49b9b0c7b76094b36acaf990f?x-bce-process=image/resize,m_lfit,w_1280,limit_1/format,f_auto)
+
   是一种基于 **磁盘** 的分布式并行批处理计算模型，用于处理大数据量的计算。其中Map对应数据集上的独立元素进行指定的操作，生成键-值对形式中间，Reduce则对中间结果中相同的键的所有值进行规约，以得到最终结果。
 
   - Jbotrackerr：master节点，只有一个，管理所有作业，任务/作业的监控，错误处理等，将任务分解成一系列任务，并分派给Tasktracker。

@@ -51,7 +51,7 @@ vim /opt/software/hadoop-2.10.1/etc/hadoop/core-site.xml
 
 vim /opt/software/hadoop-2.10.1/etc/hadoop/hadoop-env.sh
 
-![image-20210621164254662](https://youcai922.github.io/src/img/image-20210621164254662.png)
+![image-20210621164254662](https://youcai922.github.io/99.src/img/image-20210621164254662.png)
 
 vim /opt/software/hadoop-2.10.1/etc/hadoop/hdfs-site.xml
 
@@ -111,14 +111,14 @@ vim /opt/software/hadoop-2.10.1/etc/hadoop/yarn-site.xml
 
 这个时候可以通过jps查看进程
 
-![image-20210621165337937](https://youcai922.github.io/src/img/image-20210621165337937.png)
+![image-20210621165337937](https://youcai922.github.io/99.src/img/image-20210621165337937.png)
 
 通过curl localhost50070查看到html，表示启动成功
 
-![image-20210621165401478](https://youcai922.github.io/src/img/image-20210621165401478.png)
+![image-20210621165401478](https://youcai922.github.io/99.src/img/image-20210621165401478.png)
 
 如果需要在外面访问虚拟机，则需要关闭防火墙		systemctl start firewalld
 
 防火墙关闭之后：在windows上访问http://192.168.182.3:50070/
 
-出现表示成功访问![image-20210621165138453](https://youcai922.github.io/src/img/\image-20210621165138453.png)
+出现表示成功访问![image-20210621165138453](https://youcai922.github.io/99.src/img/\image-20210621165138453.png)

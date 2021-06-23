@@ -36,7 +36,7 @@
 
   ![图1 MapReduce执行流程](https://bkimg.cdn.bcebos.com/pic/5882b2b7d0a20cf49b9b0c7b76094b36acaf990f?x-bce-process=image/resize,m_lfit,w_1280,limit_1/format,f_auto)
 
-  是一种基于 **磁盘** 的分布式并行批处理计算模型，用于处理大数据量的计算。其中Map对应数据集上的独立元素进行指定的操作，生成键-值对形式中间，Reduce则对中间结果中相同的键的所有值进行规约，以得到最终结果。
+  是一种基于 **磁盘** 的分布式并行批处理计算模型，用于处理大数据量的计算。其中**Map对应数据集上的独立元素进行指定的操作，生成键-值对形式中间，Reduce则对中间结果中相同的键的所有值进行规约，以得到最终结果**。
 
   - Jbotrackerr：master节点，只有一个，管理所有作业，任务/作业的监控，错误处理等，将任务分解成一系列任务，并分派给Tasktracker。
   - Tacktracker：slave节点，运行 Map task和Reduce task；并与Jobtracker交互，汇报任务状态。
@@ -72,6 +72,8 @@
 
   YARN是下一代MapReduce，即MRv2，是在第一代MapReduce基础上演变而来的，主要是为了解决原始Hadoop扩展性较差，不支持多计算框架而提出的。
 
+  Yarn是下一代 Hadoop 计算平台，yarn是一个通用的运行时框架，用户可以编写自己的计算框架，在该运行环境中运行。
+
   Mesos诞生于UC Berkeley的一个研究项目，现已成为Apache项目，当前有一些公司使用Mesos管理集群资源，比如Twitter。与yarn类似，Mesos是一个资源统一管理和调度的平台，同样支持比如MR、steaming等多种运算框架
 
 - Zookeeper（分布式协作服务）
@@ -80,7 +82,10 @@
 
   Hadoop的许多组件依赖于Zookeeper，它运行在计算机集群上面，用于管理Hadoop操作。
 
-- Sqoop（数据同步工具）
+  - Hadoop2.0使用Zookeeper来实现HA(高可用，有多个NameNode)，同时使用他的事务处理，保证只有一个活跃的NameNode，存储配置信息等
+  - HBase使用Zookeeper的事务来保证整个集群只有一个HMaster，察觉HRegionServer联机和宕机,存储访问控制列表等
+
+- Sqoop（数据ETL/同步工具）
 
   Sqoop是SQL-to-Hadoop的缩写，主要用于传统数据库和Hadoop之前传输数据。数据的导入和导出本质上是Mapreduce程序，充分利用了MR的并行化和容错性。
 
@@ -96,7 +101,7 @@
 
 - HBase（分布式列存储数据库）
 
-  HBase是一个建立在HDFS之上，面向列的针对结构化数据的可伸缩、高可靠、高性能、分布式和面向列的动态模式数据库。
+  HBase是一个建立在HDFS之上，面向列的针对结构化数据的**可伸缩、高可靠、高性能、分布式和面向列的动态模式数据库**。
 
   HBase采用了BigTable的数据模型：增强的稀疏排序映射表（Key/Value），其中，键由行关键字、列关键字和时间戳构成。
 
@@ -104,7 +109,7 @@
 
 - Flume（日志收集工具）
 
-  Flume是一个可扩展、适合复杂环境的海量日志收集系统。它将数据从产生、传输、处理并最终写入目标的路径的过程抽象为数据流，在具体的数据流中，数据源支持在Flume中定制数据发送方，从而支持收集各种不同协议数据。
+  Flume是一个可扩展、适合复杂环境的海量日志收集系统。拥有：**分布式、高可靠、高容错、易于定制和扩展**的特点。它将数据从产生、传输、处理并最终写入目标的路径的过程抽象为数据流，在具体的数据流中，数据源支持在Flume中定制数据发送方，从而支持收集各种不同协议数据。
 
   同时，Flume数据流提供对日志数据进行简单处理的能力，如过滤、格式转换等。此外，Flume还具有能够将日志写往各种数据目标（可定制）的能力。
 
@@ -126,6 +131,14 @@
 
   生产者组件和消费者组件均可以连接到KafKa集群，而KafKa被认为是组件通信之间所使用的一种消息中间件。KafKa内部氛围很多Topic（一种高度抽象的数据结构），每个Topic又被分为很多分区（partition），每个分区中的数据按队列模式进行编号存储。被编号的日志数据称为此日志数据块在队列中的偏移量（offest），偏移量越大的数据块越新，即越靠近当前时间。生产环境中的最佳实践架构是Flume+KafKa+Spark Streaming。
 
+- Pig（ad-hoc脚本）
+
+  设计动机是提供一种基于MapReduce的ad-hoc(计算在query时发生)数据分析工具
+
+  Pig定义了一种数据流语言—Pig Latin，它是MapReduce编程的复杂性的抽象，Pig平台包括运行环境和用于分析Hadoop数据集的脚本语言(Pig Latin)。
+
+  其编译器将Pig Latin翻译成MapReduce程序序列将脚本转换为MapReduce任务在Hadoop上执行。通常用于进行离线分析。
+
 - Oozie（工作流调度器）
 
   Oozie是一个可扩展的工作体系，集成于Hadoop的堆栈，用于协调多个MapReduce作业的执行。它能够管理一个复杂的系统，基于外部事件来执行，外部事件包括数据的定时和数据的出现。
@@ -134,7 +147,65 @@
 
   Oozie使用hPDL（一种XML流程定义语言）来描述这个图。
 
+- Mahout（数据挖掘算法库）
 
+  Mahout的主要目标是创建一些可扩展的机器学习领域经典算法的实现，旨在帮助开发人员更加方便快捷地创建智能应用程序。
+
+  Mahout现在已经包含了聚类、分类、推荐引擎（协同过滤）和频繁集挖掘等广泛使用的数据挖掘方法。
+
+  除了算法，Mahout还包含数据的输入/输出工具、与其他存储系统（如数据库、MongoDB 或Cassandra）集成等数据挖掘支持架构。
+
+- Tachyon（分布式内存文件系统）
+
+  以内存为中心的分布式文件系统，拥有高性能和容错能力，
+
+  能够为集群框架（如Spark、MapReduce）提供可靠的内存级速度的文件共享服务。
+
+- Tez(DAG计算模型)
+
+  Tez是Apache最新开源的支持DAG作业的计算框架，它直接源于MapReduce框架，核心思想是将Map和Reduce两个操作进一步拆分，
+
+  即Map被拆分成Input、Processor、Sort、Merge和Output， Reduce被拆分成Input、Shuffle、Sort、Merge、Processor和Output等，
+
+  这样，这些分解后的元操作可以任意灵活组合，产生新的操作，这些操作经过一些控制程序组装后，可形成一个大的DAG作业。
+
+  目前hive支持mr、tez计算模型，tez能完美二进制mr程序，提升运算性能。
+
+- Giraph(图计算模型)
+
+  Apache Giraph是一个可伸缩的分布式迭代图处理系统， 基于Hadoop平台
+
+- GraphX(图计算模型）
+
+  Spark GraphX是一个分布式图计算框架项目，目前整合在spark运行框架中，为其提供BSP大规模并行图计算能力。
+
+- MLib（机器学习库）
+
+  Spark MLlib是一个机器学习库，它提供了各种各样的算法，这些算法用来在集群上针对分类、回归、聚类、协同过滤等。
+
+- Streaming（流计算模型）
+
+  Spark Streaming支持对流数据的实时处理，以微批的方式对实时数据进行计算
+
+- Phoenix（hbase sql接口）
+
+  Apache Phoenix 是HBase的SQL驱动，Phoenix 使得Hbase 支持通过JDBC的方式进行访问，并将你的SQL查询转换成Hbase的扫描和相应的动作。
+
+- ranger(安全管理工具）
+
+  Apache ranger是一个hadoop集群权限框架，提供操作、监控、管理复杂的数据权限，它提供一个集中的管理机制，管理基于yarn的hadoop生态圈的所有数据权限。
+
+- knox（hadoop安全网关）
+
+  Apache knox是一个访问hadoop集群的restapi网关，它为所有rest访问提供了一个简单的访问接口点，能完成3A认证（Authentication，Authorization，Auditing）和SSO（单点登录）等
+
+- falcon（数据生命周期管理工具）
+
+  Apache Falcon 是一个面向Hadoop的、新的数据处理和管理平台，设计用于数据移动、数据管道协调、生命周期管理和数据发现。它使终端用户可以快速地将他们的数据及其相关的处理和管理任务“上载（onboard）”到Hadoop集群。
+
+- Ambari（安装部署配置管理工具）
+
+  Apache Ambari 的作用来说，就是创建、管理、监视 Hadoop 的集群，是为了让 Hadoop 以及相关的大数据软件更容易使用的一个web工具。
 
 
 

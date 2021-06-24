@@ -17,6 +17,10 @@
 
 
 
+### Hadoop三大核心：HDFS、MapReduce、Yarn
+
+可以把HDFS理解为电脑，Yarn相当于分布式的操作系统平台，MapReduce相当于运行操作系统上的应用程序
+
 ### 生态圈介绍
 
 ![img](https://img-blog.csdnimg.cn/20190712100517880.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDYyMjk5,size_16,color_FFFFFF,t_70)

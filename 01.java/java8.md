@@ -1,0 +1,340 @@
+# Stream流
+
+#### 顺序流（Stream）和并行流（parallelStream）
+
+顺序流是由主线程按顺序对流执行操作，而并行流内部以多线程并行执行的方式对流进行操作，但前提是流中的数据处理没有顺序要求。例如筛选集合中的奇数。
+
+- 除了直接创建并行流，还可以通过parallel()把顺序流转换成并行流
+
+```java
+Optional<Integer> findFirst = list.stream().parallel().filter(x->x>6).findFirst();
+```
+
+
+
+#### Stream的创建：
+
+- 通过java.util.collection.stream()方法用集合创建流：
+
+```java
+List<String> list = Arrays.asList("a","b","c");
+//创建一个顺序流
+Stream<String> stream = list.stream();
+//创建一个并行流
+Stream<String> parallelStream = list.parallelStream();
+```
+
+- 使用java.util.Arrays.Stream(T[] array)方法用数据创建流
+
+```java
+int[] array={1,3,4,5,6,7};
+IntStream stream = Array.Stream(array);
+```
+
+- 使用Stream静态方法：of()、interate()、generate()
+
+```java
+Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6);
+
+Stream<Integer> stream2 = Stream.iterate(0, (x) -> x + 3).limit(4);
+stream2.forEach(System.out::println);
+
+Stream<Double> stream3 = Stream.generate(Math::random).limit(3);
+stream3.forEach(System.out::println);
+```
+
+
+
+#### Stream的使用
+
+在使用Stream之前，先理解Optional
+
+```
+Optional类是一个可以为null的容器对象，如果值存在则isPresent()方法就会返回true，调用get()方法就会返回该对象。
+```
+
+
+
+#### 举例：
+
+```java
+//员工类
+class Person {
+	private String name;  // 姓名
+	private int salary; // 薪资
+	private int age; // 年龄
+	private String sex; //性别
+	private String area;  // 地区
+
+	// 构造方法
+	public Person(String name, int salary, int age,String sex,String area) {
+		this.name = name;
+		this.salary = salary;
+		this.age = age;
+		this.sex = sex;
+		this.area = area;
+	}
+	// 省略了get和set，请自行添加
+}
+//初始化集合
+List<Person> personList = new ArrayList<Person>();
+personList.add(new Person("Tom", 8900, "male", "New York"));
+personList.add(new Person("Jack", 7000, "male", "Washington"));
+personList.add(new Person("Lily", 7800, "female", "Washington"));
+personList.add(new Person("Anni", 8200, "female", "New York"));
+personList.add(new Person("Owen", 9500, "male", "New York"));
+personList.add(new Person("Alisa", 7900, "female", "New York"));
+```
+
+- 遍历/匹配（foreach/find/match）
+
+  Stream也是支持类似集合的遍历和匹配元素的，只是Stream中的元素是以Optional类型存在的。Stream遍历、匹配非常简单
+
+```java
+public class StreamTest {
+	public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(7, 6, 9, 3, 8, 2, 1);
+
+        // 遍历输出符合条件的元素
+        list.stream().filter(x -> x > 6).forEach(System.out::println);
+        // 匹配第一个
+        Optional<Integer> findFirst = list.stream().filter(x -> x > 6).findFirst();
+        // 匹配任意（适用于并行流）
+        Optional<Integer> findAny = list.parallelStream().filter(x -> x > 6).findAny();
+        // 是否包含符合特定条件的元素
+        boolean anyMatch = list.stream().anyMatch(x -> x < 6);
+        System.out.println("匹配第一个值：" + findFirst.get());
+        System.out.println("匹配任意一个值：" + findAny.get());
+        System.out.println("是否存在大于6的值：" + anyMatch);
+    }
+}
+```
+
+- 筛选（filter）
+
+```Java
+//筛选处集合中大与7的元素
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Integer> list = Arrays.asList(6, 7, 3, 8, 1, 2, 9);
+		Stream<Integer> stream = list.stream();
+		stream.filter(x -> x > 7).forEach(System.out::println);
+	}
+}
+```
+
+```Java
+//筛选员工中工资高于8000的人，并形成新的集合。 形成新集合依赖collect（收集）。
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Person> personList = new ArrayList<Person>();
+		personList.add(new Person("Tom", 8900, 23, "male", "New York"));
+		personList.add(new Person("Jack", 7000, 25, "male", "Washington"));
+		personList.add(new Person("Lily", 7800, 21, "female", "Washington"));
+		personList.add(new Person("Anni", 8200, 24, "female", "New York"));
+		personList.add(new Person("Owen", 9500, 25, "male", "New York"));
+		personList.add(new Person("Alisa", 7900, 26, "female", "New York"));
+
+		List<String> fiterList = personList.stream().filter(x -> x.getSalary() > 8000).map(Person::getName).collect(Collectors.toList());
+		System.out.print("高于8000的员工姓名：" + fiterList);
+	}
+}
+```
+
+- 聚合（max/min/count）
+
+```java
+//获取String集合中最长的元素
+public class StreamTest {
+	public static void main(String[] args) {
+		List<String> list = Arrays.asList("adnm", "admmt", "pot", "xbangd", "weoujgsd");
+
+		Optional<String> max = list.stream().max(Comparator.comparing(String::length));
+		System.out.println("最长的字符串：" + max.get());
+	}
+}
+```
+
+```java
+//获取Integer集合中的最大值
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Integer> list = Arrays.asList(7, 6, 9, 4, 11, 6);
+
+		// 自然排序
+		Optional<Integer> max = list.stream().max(Integer::compareTo);
+		// 自定义排序
+		Optional<Integer> max2 = list.stream().max(new Comparator<Integer>() {
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o1.compareTo(o2);
+			}
+		});
+		System.out.println("自然排序的最大值：" + max.get());
+		System.out.println("自定义排序的最大值：" + max2.get());
+	}
+}
+```
+
+```java
+//获取员工共工资最高的人
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Person> personList = new ArrayList<Person>();
+		personList.add(new Person("Tom", 8900, 23, "male", "New York"));
+		personList.add(new Person("Jack", 7000, 25, "male", "Washington"));
+		personList.add(new Person("Lily", 7800, 21, "female", "Washington"));
+		personList.add(new Person("Anni", 8200, 24, "female", "New York"));
+		personList.add(new Person("Owen", 9500, 25, "male", "New York"));
+		personList.add(new Person("Alisa", 7900, 26, "female", "New York"));
+
+		Optional<Person> max = personList.stream().max(Comparator.comparingInt(Person::getSalary));
+		System.out.println("员工工资最大值：" + max.get().getSalary());
+	}
+}
+```
+
+```java 
+//计算集合中大与6的元素个数
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Integer> list = Arrays.asList(7, 6, 4, 8, 2, 11, 9);
+
+		long count = list.stream().filter(x -> x > 6).count();
+		System.out.println("list中大于6的元素个数：" + count);
+	}
+}
+```
+
+- 映射（map/flatMap）
+
+```java
+//英文字符串数组的元素全部改为大写，整数数组，每个元素+3
+public class StreamTest {
+	public static void main(String[] args) {
+		String[] strArr = { "abcd", "bcdd", "defde", "fTr" };
+		List<String> strList = Arrays.stream(strArr).map(String::toUpperCase).collect(Collectors.toList());
+
+		List<Integer> intList = Arrays.asList(1, 3, 5, 7, 9, 11);
+		List<Integer> intListNew = intList.stream().map(x -> x + 3).collect(Collectors.toList());
+
+		System.out.println("每个元素大写：" + strList);
+		System.out.println("每个元素+3：" + intListNew);
+	}
+}
+```
+
+```java
+//将每个员工的工资+1000
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Person> personList = new ArrayList<Person>();
+		personList.add(new Person("Tom", 8900, 23, "male", "New York"));
+		personList.add(new Person("Jack", 7000, 25, "male", "Washington"));
+		personList.add(new Person("Lily", 7800, 21, "female", "Washington"));
+		personList.add(new Person("Anni", 8200, 24, "female", "New York"));
+		personList.add(new Person("Owen", 9500, 25, "male", "New York"));
+		personList.add(new Person("Alisa", 7900, 26, "female", "New York"));
+
+		// 不改变原来员工集合的方式
+		List<Person> personListNew = personList.stream().map(person -> {
+			Person personNew = new Person(person.getName(), 0, 0, null, null);
+			personNew.setSalary(person.getSalary() + 10000);
+			return personNew;
+		}).collect(Collectors.toList());
+		System.out.println("一次改动前：" + personList.get(0).getName() + "-->" + personList.get(0).getSalary());
+		System.out.println("一次改动后：" + personListNew.get(0).getName() + "-->" + personListNew.get(0).getSalary());
+
+		// 改变原来员工集合的方式
+		List<Person> personListNew2 = personList.stream().map(person -> {
+			person.setSalary(person.getSalary() + 10000);
+			return person;
+		}).collect(Collectors.toList());
+		System.out.println("二次改动前：" + personList.get(0).getName() + "-->" + personListNew.get(0).getSalary());
+		System.out.println("二次改动后：" + personListNew2.get(0).getName() + "-->" + personListNew.get(0).getSalary());
+	}
+}
+```
+
+```java
+//将两个字符数组合并成一个新的字符数组
+public class StreamTest {
+	public static void main(String[] args) {
+		List<String> list = Arrays.asList("m,k,l,a", "1,3,5,7");
+		List<String> listNew = list.stream().flatMap(s -> {
+			// 将每个元素转换成一个stream
+			String[] split = s.split(",");
+			Stream<String> s2 = Arrays.stream(split);
+			return s2;
+		}).collect(Collectors.toList());
+
+		System.out.println("处理前的集合：" + list);
+		System.out.println("处理后的集合：" + listNew);
+	}
+}
+```
+
+- 规约
+
+```Java
+//求Integer集合的元素之和、乘积和最大值
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Integer> list = Arrays.asList(1, 3, 2, 8, 11, 4);
+		// 求和方式1
+		Optional<Integer> sum = list.stream().reduce((x, y) -> x + y);
+		// 求和方式2
+		Optional<Integer> sum2 = list.stream().reduce(Integer::sum);
+		// 求和方式3
+		Integer sum3 = list.stream().reduce(0, Integer::sum);
+		
+		// 求乘积
+		Optional<Integer> product = list.stream().reduce((x, y) -> x * y);
+
+		// 求最大值方式1
+		Optional<Integer> max = list.stream().reduce((x, y) -> x > y ? x : y);
+		// 求最大值写法2
+		Integer max2 = list.stream().reduce(1, Integer::max);
+
+		System.out.println("list求和：" + sum.get() + "," + sum2.get() + "," + sum3);
+		System.out.println("list求积：" + product.get());
+		System.out.println("list求和：" + max.get() + "," + max2);
+	}
+}
+```
+
+```Java
+//求所有员工的工资之和和最高工资。
+public class StreamTest {
+	public static void main(String[] args) {
+		List<Person> personList = new ArrayList<Person>();
+		personList.add(new Person("Tom", 8900, 23, "male", "New York"));
+		personList.add(new Person("Jack", 7000, 25, "male", "Washington"));
+		personList.add(new Person("Lily", 7800, 21, "female", "Washington"));
+		personList.add(new Person("Anni", 8200, 24, "female", "New York"));
+		personList.add(new Person("Owen", 9500, 25, "male", "New York"));
+		personList.add(new Person("Alisa", 7900, 26, "female", "New York"));
+
+		// 求工资之和方式1：
+		Optional<Integer> sumSalary = personList.stream().map(Person::getSalary).reduce(Integer::sum);
+		// 求工资之和方式2：
+		Integer sumSalary2 = personList.stream().reduce(0, (sum, p) -> sum += p.getSalary(),
+				(sum1, sum2) -> sum1 + sum2);
+		// 求工资之和方式3：
+		Integer sumSalary3 = personList.stream().reduce(0, (sum, p) -> sum += p.getSalary(), Integer::sum);
+
+		// 求最高工资方式1：
+		Integer maxSalary = personList.stream().reduce(0, (max, p) -> max > p.getSalary() ? max : p.getSalary(),
+				Integer::max);
+		// 求最高工资方式2：
+		Integer maxSalary2 = personList.stream().reduce(0, (max, p) -> max > p.getSalary() ? max : p.getSalary(),
+				(max1, max2) -> max1 > max2 ? max1 : max2);
+
+		System.out.println("工资之和：" + sumSalary.get() + "," + sumSalary2 + "," + sumSalary3);
+		System.out.println("最高工资：" + maxSalary + "," + maxSalary2);
+	}
+}
+```
+
+
+

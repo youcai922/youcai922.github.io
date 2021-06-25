@@ -6,37 +6,38 @@
 
 如果有任何问题可以联系我，我的邮箱是：2287360627@qq.com
 
+### Java
 
+TODO
 
-### Markdown
+### 数据库
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+TODO
 
-```markdown
-Syntax highlighted code block
+### Linux
 
-# Header 1
-## Header 2
-### Header 3
+- 常用命令
+- 常用工具配置
+- 问题记录
 
-- Bulleted
-- List
+### 大数据
 
-1. Numbered
-2. List
+- [hadoop介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/01-0Hadoop%E4%BB%8B%E7%BB%8D.md)
+- hadoop入门
+- MapReduce介绍
+- HBase介绍
+- Yarn介绍
+- Zookeeper介绍
+- Sqoop介绍
+- Hive介绍
+- Flume介绍
 
-**Bold** and _Italic_ and `Code` text
+### 其他
 
-[Link](url) and ![Image](src)
-```
+- git
+- markdown
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### 面经
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/youcai922/youcai922.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+TODO
 

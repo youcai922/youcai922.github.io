@@ -8,11 +8,15 @@
 
 ### Java
 
-TODO
+- [java8新特性](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/java8.md)
 
 ### 数据库
 
-TODO
+- 关系型数据库
+- 非关系型数据库
+  - [redis介绍](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/00redis%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%85%A5%E9%97%A8.md)
+  - [redis命令](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/01redis%E5%91%BD%E4%BB%A4.md)
+  - [redis常见异常和解决方案](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/03redis%E5%B8%B8%E8%A7%81%E5%BC%82%E5%B8%B8%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88.md)
 
 ### Linux
 

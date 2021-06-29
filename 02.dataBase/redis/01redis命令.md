@@ -219,3 +219,116 @@ redis> GEOHASH Sicily Palermo Catania
 2) "sqdtr74hyu0"
 ```
 
+
+
+#### Stream
+
+stream是5.0新增的数据结构，主要用于消息队列，redis发布订阅可以实现消息队列，但是他无法实现持久化，比如网络断开，redis宕机，消息就会被丢弃。
+
+简单来说发布订阅只能分发消息，但是无法记录历史消息。Stream提供了消息的持久化和主备复制功能，可以让任何客户端访问任何时刻的数据，并且能够记住每一个客户断的访问位置，还能保证消息不丢失。
+
+Stream结构如下：他有一个消息链表，将所有加入的消息都穿起来，每个消息都有一个唯一的ID和对应的内容：
+
+![img](https://www.runoob.com/wp-content/uploads/2020/09/en-us_image_0167982791.png)
+
+每一个Stream都有一个唯一的名称，他就是redis的key，在我们上搜测试用xadd指令追加消息的时候创建。
+
+上图分析：
+
+- Consumer Group：消息组，使用XGROUP CREATE命令创建，一个消费组有多个消费者（Consumer）
+- last_delivered_id：游标，每个消费组会有一个游标last_delivered_id，任意一个消费者读取了消息都会使游标last_delivered_id往前移动
+- pending_ids：消费者（Consumer）的状态变量，作用是维护消费者的未确认id。pending_ids记录了当前已经被客户端读取的消息，但是还没有ack（Acknowledge character：确认字符）
+
+消息队列相关命令：
+
+```
+XADD：添加消息到末尾
+语法格式：XADD key ID field value [field value ...]
+实例：XADD mystream * name Sara surname OConnor	//队列名称是mytream；*代表redis自己生成消息的id，可以自己指定，但是要保证递增行；后面的是消息记录
+
+
+XTRIM：对流进行修剪，限制长度
+语法格式：XTRIM key MAXLEN [~] count	//key队列名称，MAXLEN：长度；count数量
+实例：127.0.0.1:6379> XADD mystream * field1 A field2 B field3 C field4 D
+"1601372434568-0"
+127.0.0.1:6379> XTRIM mystream MAXLEN 2
+(integer) 0
+127.0.0.1:6379> XRANGE mystream - +
+1) 1) "1601372434568-0"
+   2) 1) "field1"
+      2) "A"
+      3) "field2"
+      4) "B"
+      5) "field3"
+      6) "C"
+      7) "field4"
+      8) "D"
+      
+XDEL：删除消息
+语法格式：XDEL key ID [ID ...] 	//key队列名称，ID消息id
+实例：> XADD mystream * a 1
+1538561698944-0
+> XDEL mystream 1538561698944-0
+
+XLEN：获取流包含的元素数量，即消息长度
+语法格式：XLEN key
+实例：redis> XLEN mystream
+(integer) 3
+
+XRANGE：获取消息列表，会自动过滤已经删除的消息
+语法格式：XRANGE key start end [COUNT count]	//key队列名，star：开始值，-表示最小值，end结束值，+表示最大值；count数量
+实例：redis> XRANGE writers - + COUNT 2	//输出writer队列中的2个消息，每个消息输出所有
+
+XREVRANGE：反向获取列表，ID从大到小
+语法格式：XREVRANGE key end start [COUNT count]
+实例：XREVRANGE writers + - COUNT 1	//输出writer队列中的一个消息，这个消息输出所有
+
+XREAD：以组赛或非阻塞方式获取消息列表
+语法格式：XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] id [id ...]		//count数量，milliseconds可选，阻塞毫秒数，没有设置就是非阻塞模式；key队列名；id消息id
+实例：> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0	//从Stream头部读取两条消息
+```
+
+消费者组相关命令：
+
+```
+XGROUP CREATTE：创建消费者组
+语法格式：XGROUP [CREATE key groupname id-or-$] [SETID key groupname id-or-$] [DESTROY key groupname] [DELCONSUMER key groupname consumername]	//key队列名称，groupname组名，￥表示从尾部开始消费，只接受新消息，当前Stream消息会全部忽略。
+//XGROUP CREATE mystream consumer-group-name 0-0 从头开始消费
+//XGROUP CREATE mystream consumer-group-name %	 从尾部开始消费
+
+XRADGROUP GROUP：读取消费者组中的消息
+语法格式：XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds] [NOACK] STREAMS key [key ...] ID [ID ...]	//group消费组名，cosumer消费者名，count读取数量，milliseconds阻塞毫秒数，key队列名，id消息id
+
+XACK：将消息标记为“已处理”
+XGROUP SETID：为消费者组设置新的最后传送消息id
+XGROUP DELCONSUMER：删除消费者
+XGROUP DESTROY：删除消费者组
+XPENDING：显示待处理消息的相关信息
+XCLAIM：转移消息的归属权
+XINFO：查看流和消费者组的相关信息
+XINFO GROUPS：打印消费者组的消息
+XINFO STREAM：打印流信息
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

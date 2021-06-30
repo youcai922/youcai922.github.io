@@ -1,3 +1,28 @@
+#### INCR
+
+incr命令将key中存储的数字值增一
+
+如果key不存在，则key的值会被初始化为0，然后再执行INCR操作
+
+命令语法：
+
+```
+redis 127.0.0.1:6379> INCR KEY_NAME 
+```
+
+实例
+
+```
+redis> SET page_view 20
+OK
+redis> INCR page_view
+(integer) 21
+redis> GET page_view    # 数字值在 Redis 中以字符串的形式保存
+"21"
+```
+
+
+
 #### 发布订阅
 
 发布订阅是一种消息通信模式：发送者（pub）发送消息，订阅者（sub）接收消息

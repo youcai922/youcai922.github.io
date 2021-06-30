@@ -6,14 +6,18 @@
 
 **角色状态**
 
-![image-20210630142817553](D:\my bug\github\youcai922.github.io\99.src\img\image-20210630142817553.png)
+![image-20210630142817553](https://youcai922.github.io/99.src/img/image-20210630142817553.png)
 
 - 三种角色：leader，follower，observer
 - 四种状态：leading，following，observing，looking
 
 **组织架构：**
 
-![image-20210630142817553](D:\my bug\github\youcai922.github.io\99.src\img\20210630143852.png)
+![image-20210630142817553](https://youcai922.github.io/99.src/img/20210630143852.png)
+
+**数据结构：**
+
+zookkeeper 提供的名称空间非常类似于标准文件系统，key-value 的形式存储。名称 key 由斜线 **/** 分割的一系列路径元素，zookeeper 名称空间中的每个节点都是由一个路径标识。
 
 **设计目的：**
 
@@ -21,7 +25,11 @@
 - zookeeper通过上述提供的服务，来解决分布式集群中应用系统的一致性问题
 - zookeeper维护和监控你的存储的数据的状态变化，通过监控这些数据状态的变化，从而可以达到基于数据的集群管理，实现分布式协作，分布式同步，配置管理等
 
+**CAP理论：**
 
+Zookeeper保证了一致性和分区容错性，没有保证可用性，而Eureka保证的是一致性和可用性
+
+原因在于Eureka内部使用http通信，网络故障会导致丢包或者数据延迟，而Zookeeper是因为Leader的选举时间非常长，在选举的时候，基本会影响可用性
 
 ### 应用场景
 

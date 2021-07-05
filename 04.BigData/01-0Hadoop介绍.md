@@ -31,6 +31,8 @@
 
 ![img](https://img-blog.csdnimg.cn/20190712100517880.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDYyMjk5,size_16,color_FFFFFF,t_70)
 
+![微信截图_20210705143117.png](https://youcai922.github.io/99.src/img/微信截图_20210705143117.png)
+
 - HDFS（Hadoop Distributed File System分布式文件系统）：
 
   ​	hadoop体系的基础，负责数据存储和管理，拥有高容错性的特点。

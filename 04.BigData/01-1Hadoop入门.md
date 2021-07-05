@@ -1,5 +1,34 @@
 # Hadoop入门
 
+### 工作原理
+
+- 一个集群中只有一个NameNode，可以有多个DataNodes
+- NameNode承担数据的位置存储信息，并将存储位置信息告诉Client端
+- client得到位置信息之后，开始写数据
+- 写数据的时候是将数据分块，并存储为多份，一般分为3份，放在不同的Datanode节点
+- client先将数据写到第一个节点，，在第一个节点接收数据的同时，又将它所接受的数据推送到第二个，第二个推送到第三个节点，如果有多个节点，依次类推
+- NameNode不参与数据块的IO，相当于mongdb集群中的mongos和confg服务器的双重角色
+
+**NameNode：**
+
+分布式文件系统中的管理者，主要负责文件系统的命名空间、集群配置信息和存储块的复制。NameNode会将文件系统中的Meta-data存储在内存中，这些信息主要包括了文件信息、每个文件对应的文件快的信息和每一个文件快在DataNode的信息等。Master管理HDFS的名称空间、数据块映射信息、配置副本策略、处理客户端读写请求。
+
+**Secondary namenode：**
+
+并不是NameNode的热备，而是辅助NameNode，分担其工作量，定期合并fsimage和fsedits，推送给NameNode，在紧急情况下，可以辅助恢复NameNode
+
+**DataNode：**
+
+是文件存储的基本单元，将Block存储在本地文件系统中，保存block的meta-data，同时周期性地将所有存在Block信息发送NameNode。Slavel存储时即的数据块，执行数据块读写
+
+**Client：**
+
+文件切分与NameNode交互，获取文件位置信息，与DataNode交互，读取或者写入数据；管理HDFS，访问HDFS
+
+
+
+
+
 Hadoop一共有三种模式：单机模式、伪集群模式和集群模式
 
 hadoop下载地址：https://hadoop.apache.org/releases.html

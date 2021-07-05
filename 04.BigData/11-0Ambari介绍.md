@@ -1,0 +1,2 @@
+随着Hadoop越来越普及，对合适的管理平台的需求成为问题。Ambari是第一个开源实现。是一个基于Web的工具，支持Apache Hadoop集群的供应、管理和监控。Ambari已经支持大多数的Hadoop组件，包括HDFS、MapReduce、Hive、Pig、HBase、Zookeeper、Sqoop和Hcatalog等
+

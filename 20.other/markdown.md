@@ -120,11 +120,59 @@ RUNOOB.COM
 
 
 
+表格
 
+```
+|  表头   | 表头  |
+|  ----  | ----  |
+| 单元格  | 单元格 |
+| 单元格  | 单元格 |
+```
 
+| 表头   | 表头   |
+| ------ | ------ |
+| 单元格 | 单元格 |
+| 单元格 | 单元格 |
 
+单元格的合并：
 
+markdown不支持单元格的合并，但是可以通过table标签来进行
 
+```
+<table>
+	<tr>
+	    <th>HBase数据模型</th>
+	    <th>java类</th>
+	</tr >
+	<tr >
+        <td rowspan="3">数据库(DataBase)</td>
+	    <td>HBaseAdmin</td>
+	</tr>
+	<tr>
+	    <td>HBaseConfiguration</td>
+	</tr>
+	<tr>
+	    <td>HTable</td>
+	</tr>
+</table>
+```
+
+<table>
+	<tr>
+	    <th>HBase数据模型</th>
+	    <th>java类</th>
+	</tr >
+	<tr >
+        <td rowspan="3">数据库(DataBase)</td>
+	    <td>HBaseAdmin</td>
+	</tr>
+	<tr>
+	    <td>HBaseConfiguration</td>
+	</tr>
+	<tr>
+	    <td>HTable</td>
+	</tr>
+</table>
 
 
 

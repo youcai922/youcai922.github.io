@@ -30,11 +30,17 @@
 - [hadoop入门](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/01-1Hadoop%E5%85%A5%E9%97%A8.md)
 - [MapReduce介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/02-0MapReduce%E4%BB%8B%E7%BB%8D.md)
 - [HBase介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/03-0HBase%E4%BB%8B%E7%BB%8D.md)
+- [HBase数据操作](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/03-1HBase%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C.md)
 - [Yarn介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/04-0Yarn%E4%BB%8B%E7%BB%8D.md)
 - [Zookeeper介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/05-0Zookeeper%E4%BB%8B%E7%BB%8D.md)
+- [Zookeeper入门](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/05-1Zookeeper%E5%85%A5%E9%97%A8.md)
 - [Sqoop介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/06-0Sqoop%E4%BB%8B%E7%BB%8D.md)
 - [Hive介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/07-0Hive%E4%BB%8B%E7%BB%8D.md)
 - [Flume介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/08-0Flume%E4%BB%8B%E7%BB%8D.md)
+- [KafKa介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/09-0Kafka%E4%BB%8B%E7%BB%8D.md)
+- [Pig介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/10-0Pig%E4%BB%8B%E7%BB%8D.md)
+- [Ambari介绍](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/11-0Ambari%E4%BB%8B%E7%BB%8D.md)
+- [其他组件](https://github.com/youcai922/youcai922.github.io/blob/main/04.BigData/12-0%E5%85%B6%E4%BB%96%E7%BB%84%E4%BB%B6%E7%9A%84%E4%BB%8B%E7%BB%8D.md)
 
 ### 前端
 
@@ -45,8 +51,6 @@
 ### 面经
 
 TODO
-
-
 
 ### 其他
 

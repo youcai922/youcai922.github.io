@@ -20,7 +20,7 @@ Hive架构包括以下组件：CLI（command line interface）、JDBC/ODBC、Thr
   - Thrif客户端：hive架构的许多客户端接口时建立在thrif客户端之上，包括JDBC和ODBC接口
   - WEBGUI：hive客户端提供了一种通过网页的方法访问hive所提供的服务。这个接口对应hive的hwi组件，使用前要启动hwi服务。
 
-  
+  ![微信截图_20210708090753](https://youcai922.github.io/99.src/img/微信截图_20210708090753.png)
 
 #### 特征：
 

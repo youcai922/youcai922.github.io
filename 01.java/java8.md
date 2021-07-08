@@ -86,7 +86,7 @@ personList.add(new Person("Owen", 9500, "male", "New York"));
 personList.add(new Person("Alisa", 7900, "female", "New York"));
 ```
 
-##### 遍历/匹配（foreach/find/match）
+#### 遍历/匹配（foreach/find/match）
 
 Stream也是支持类似集合的遍历和匹配元素的，只是Stream中的元素是以Optional类型存在的。Stream遍历、匹配非常简单
 
@@ -110,7 +110,7 @@ public class StreamTest {
 }
 ```
 
-##### 筛选（filter）
+#### 筛选（filter）
 
 ```Java
 //筛选处集合中大与7的元素
@@ -141,7 +141,7 @@ public class StreamTest {
 }
 ```
 
-##### 聚合（max/min/count）
+#### 聚合（max/min/count）
 
 ```java
 //获取String集合中最长的元素
@@ -206,7 +206,7 @@ public class StreamTest {
 }
 ```
 
-##### 映射（map/flatMap）
+#### 映射（map/flatMap）
 
 ```java
 //英文字符串数组的元素全部改为大写，整数数组，每个元素+3
@@ -274,7 +274,7 @@ public class StreamTest {
 }
 ```
 
-##### 规约
+#### 规约
 
 ```Java
 //求Integer集合的元素之和、乘积和最大值
@@ -336,7 +336,7 @@ public class StreamTest {
 }
 ```
 
-##### 收集
+#### 收集
 
 收集，可以说是内容最繁多、功能最丰富的部分。从字面上去理解，就是把一个流收集起来，最终可以是收集成一个值，也可以收集成一个新的集合
 

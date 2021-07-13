@@ -26,6 +26,90 @@
 
 #### static 静态成员 / 静态内部类与非静态内部类
 
+```java
+public class Outer {
+    //静态变量
+    private static int b;
+    //静态方法
+    public static void say(){}
+    //静态内部类
+    public static class Inner{
+        //在静态内部类中定义一个静态变量和一个实例变量
+        static int c;
+        int d;
+        //定义一个匿名代码块和一个静态代码块
+        {}
+        static{}
+        //定义一个静态方法和一个普通方法
+        public static void go(){}
+        public void walk(){
+            //在静态内部类中调用外部类的属性和方法
+            int f = b;                     //可以直接调用外部类的静态属性
+            say();                        //可以直接调用外部类的静态方法
+            //int e = a;                 直接调用外部类的非静态属性出错编译出错
+            //test();                    直接调用外部类的非静态方法时编译出错
+            Outer outer = new Outer();
+            int e = outer.a;            //可以通过创建外部类实例来调用外部类的非静态属性
+            outer.test();                //可以通过创建外部类实例来调用外部类的非静态方法
+        }
+    }
+    //非静态内部类
+    class Inner2{ 
+        //内部类方法
+        public void in(){
+            System.out.println("这是内部类方法");
+        }
+    }
+}
+//实例化
+public class Test{
+    public static void main(String[] args) {
+        //实例化成员内部类分两步
+        //1、实例化外部类
+        Outer outObject = new Outer();
+        //2、通过外部类调用内部类
+        Outer.Inner inObject = outObject.new Inner2();
+　　　　　//测试，调用内部类中的方法
+　　　　　inObject.in();//打印：这是内部类方法
+    }
+}
+```
+
+static是一个修饰符，可以修饰成员变量/成员方法，被修饰的成员具有以下特征：
+
+- 随着类的加载而加载
+- 优先于对象的存在
+- 所有对象所共享
+- 可以直接被类名调用
+
+**存放位置：**
+
+- 静态成员属性（类变量）随着类的加载而存在于data内存区
+- 普通成员属性随着对象的建立而存在与堆内存
+
+```java
+//要求：使用已知的变量，在控制台输出30，20，10。
+class Outer {
+	public int num = 10;
+    class Inner {
+    	public int num = 20;
+        public void show() {
+            int num = 30;
+            System.out.println(?);
+            System.out.println(??);
+            System.out.println(???);
+        }
+    }
+}
+
+class InnerClassTest {
+	public static void main(String[] args) {
+		Outer.Inner oi = new Outer().new Inner();
+		oi.show();
+	}    
+}  
+```
+
 #### 重写和重载
 
 - 重写（Override）是父类与子类之间的多态性，实质是对父类的函数进行重新定义，如果在子类中定义某方法与其父类有相同的名称和参数则该方法被重写，不过子类函数的访问修饰权限不能小于父类的；若子类中的方法与父类中的某一方法具有相同的方法名、返回类型和参数表，则新方法将覆盖原有的方法，如需父类中原有的方法则可使用 super 关键字

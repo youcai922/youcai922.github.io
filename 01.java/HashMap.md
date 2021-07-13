@@ -104,3 +104,15 @@ for(Integer key : map.keySet()){
 ```
 
 ​	这个方法看上去比方法1更简洁，但是实际上它更慢更低效，通过key得到value值更耗时（这个方法在所有实现map接口的map中比方法1慢20%-200%。
+
+##### 8.Stream流
+
+```Java
+map.entrySet().stream().forEach((entry) -> {
+    System.out.print(entry.getKey());
+    System.out.print(entry.getValue());
+});
+```
+
+
+

@@ -298,7 +298,9 @@ class Student implements Comparable<Student>{
 java多态原理
 类为什么是单继承的
 Serializable 序列话和反序列化 ，为什么要序列化
-Collection
+
+# Collection
+
  List
  迭代器 Iterator
  ArrayList 和 LinkedList 的区别和使用场景

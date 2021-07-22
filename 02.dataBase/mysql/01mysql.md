@@ -7,6 +7,10 @@
 
 ![sql执行过程](https://img-blog.csdnimg.cn/20201006090853757.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1Y2FuMTIzNA==,size_16,color_FFFFFF,t_70#pic_center)
 
+#### 索引：
+
+
+
 #### 视图：
 
 视图是一种虚拟存在的表，是一个逻辑表，本身并不包含数据。作为select语句保存在数据字典中。
@@ -136,3 +140,36 @@ NULL: MySQL在优化过程中分解语句，执行时甚至不用访问表或索
 	事务A读取了表中的一部分数据
 	事务B向表中插入了新的行
 	事务A再次读取表的数据时，发现出现了新的行
+
+
+
+什么是索引：索引是帮助mysql高效获取数据的数据结构，我们可以简单理解为，快速查找排好序的一种数据结构。索引主要有两种结构：B+Tree索引和Hash索引，一般都是B+树索引。
+
+索引类型：普通索引、唯一索引、主键索引、组合索引、全文索引
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

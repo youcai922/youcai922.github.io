@@ -8,11 +8,27 @@
 
 ### Java
 
+- [基础](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/java%E5%9F%BA%E7%A1%80.md)
+
+- Collection
+  - [HashMap](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/HashMap.md)
+
 - [java8新特性](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/java8.md)
+- [jvm](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/jvm/00jvm%E4%BB%8B%E7%BB%8D.md)
+- 数据结构
+- 设计模式
+  - [单例模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/00.%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.md)
+  - [工程模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.md)
+  - [观察者模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
+
+
 
 ### 数据库
 
 - 关系型数据库
+  - [mysql](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/mysql/mysql/00mysql.md)
+    - [索引](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/mysql/mysql/01mysql%E7%B4%A2%E5%BC%95.md)
+  - Oracle
 - 非关系型数据库
   - [redis介绍](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/00redis%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%85%A5%E9%97%A8.md)
   - [redis命令](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/01redis%E5%91%BD%E4%BB%A4.md)

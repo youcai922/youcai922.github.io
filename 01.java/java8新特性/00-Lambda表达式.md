@@ -1,5 +1,7 @@
 ### Java Lambda表达式
 
+Lambda表达式：一段可以传递的代码，因此它可以被执行一次或者多次。
+
 语法格式：(parameters) -> expression 或 (parameters) ->{ statements; }
 
 lambda表达式重要特征：
@@ -69,6 +71,21 @@ public class Java8Tester {
    private int operate(int a, int b, MathOperation mathOperation){
       return mathOperation.operation(a, b);
    }
+}
+```
+
+
+
+```java
+Lambda排序
+String[] strings={"aa","aaa","a","aaaa"};
+Comparator<String> comp = (String first,String second)->Integer.compare(first.length(),second.length);
+Arrays.sort(strings,comp);
+
+Comparator<String> comp=(String first,String second)->{
+    if(first.length()<second.length())return -1;
+    else if(first.length()>second.length())return 1;
+    else return 0;
 }
 ```
 

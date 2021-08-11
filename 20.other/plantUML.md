@@ -1,5 +1,3 @@
-参考：https://zhuanlan.zhihu.com/p/19901245
-
 ### plantUML安装和新建
 
 在idea上安装PlantUML插件

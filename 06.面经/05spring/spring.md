@@ -62,4 +62,71 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 2. ⾸先会进⾏扫描，扫描得到所有的BeanDefinition对象，并存在⼀个Map中
 3. 然后筛选出⾮懒加载的单例BeanDefinition进⾏创建Bean，对于多例Bean不需要在启动过程中去 进⾏创建，对于多例Bean会在每次获取Bean时利⽤BeanDefinition去创建
-4. 利⽤BeanDefinition创建Bean就是Bean的创建⽣命周期，这期间包括了合并BeanDefinition、推断 构造⽅法、实例化、属性填充、初始化前、初始化、初始化后等步骤，其中AOP就是发⽣在初始化 后这⼀步骤中 5. 单例Bean创建完了之后，Spring会发布⼀个容器启动事件 6. Spring启动结束 7. 在源码中会更复杂，⽐如源码中会提供⼀些模板⽅法，让⼦类来实现，⽐如源码中还涉及到⼀些 BeanFactoryPostProcessor和BeanPostProcessor的注册，Spring的扫描就是通过 BenaFactoryPostProcessor来实现的，依赖注⼊就是通过BeanPostProcessor来实现的 8. 在Spring启动过程中还会去处理@Import等注解
+4. 利⽤BeanDefinition创建Bean就是Bean的创建⽣命周期，这期间包括了合并BeanDefinition、推断 构造⽅法、实例化、属性填充、初始化前、初始化、初始化后等步骤，其中AOP就是发⽣在初始化 后这⼀步骤中
+5. 单例Bean创建完了之后，Spring会发布⼀个容器启动事件
+6. Spring启动结束
+7. 在源码中会更复杂，⽐如源码中会提供⼀些模板⽅法，让⼦类来实现，⽐如源码中还涉及到⼀些 BeanFactoryPostProcessor和BeanPostProcessor的注册，Spring的扫描就是通过 BenaFactoryPostProcessor来实现的，依赖注⼊就是通过BeanPostProcessor来实现的
+8. 在Spring启动过程中还会去处理@Import等注解
+
+
+#### Spring中的设计模式
+
+![微信截图_20210819145418.png](https://youcai922.github.io/99.src/img/微信截图_20210819145418.png)
+
+
+
+#### SpringMVC的底层工作原理
+
+1. ⽤户发送请求⾄前端控制器DispatcherServlet
+2. DispatcherServlet 收到请求调⽤ HandlerMapping 处理器映射器
+3. 处理器映射器找到具体的处理器(可以根据 xml 配置、注解进⾏查找)，⽣成处理器及处理器拦截器 (如果有则⽣成)⼀并返回给 DispatcherServlet
+4. DispatcherServlet 调⽤ HandlerAdapter 处理器适配器
+5. HandlerAdapter 经过适配调⽤具体的处理器(Controller，也叫后端控制器)
+6. Controller 执⾏完成返回 ModelAndView
+7. HandlerAdapter 将 controller 执⾏结果 ModelAndView 返回给 DispatcherServlet
+8. DispatcherServlet 将 ModelAndView 传给 ViewReslover 视图解析器。
+9. ViewReslover 解析后返回具体 View。
+10. DispatcherServlet 根据 View 进⾏渲染视图（即将模型数据填充⾄视图中）。
+11. DispatcherServlet 响应⽤户。
+
+
+
+#### SpringBoot中常用注解及其底层实现
+
+1. @SpringBootApplication注解：这个注解标识了⼀个SpringBoot⼯程，它实际上是另外三个注解 的组合，这三个注解是：
+
+   a. @SpringBootConfiguration：这个注解实际就是⼀个@Configuration，表示启动类也是⼀个 配置类
+
+   b.@EnableAutoConfiguration：向Spring容器中导⼊了⼀个Selector，⽤来加载ClassPath下 SpringFactories中所定义的⾃动配置类，将这些⾃动加载为配置Bean
+
+   c.@ComponentScan：标识扫描路径，因为默认是没有配置实际扫描路径，所以SpringBoot扫 描的路径是启动类所在的当前⽬录
+
+2. @Bean注解：⽤来定义Bean，类似于XML中的标签，Spring在启动时，会对加了@Bean注 解的⽅法进⾏解析，将⽅法的名字做为beanName，并通过执⾏⽅法得到bean对象
+
+3. @Controller、@Service、@ResponseBody、@Autowired都可以说
+
+
+
+#### SpringBoot是如何启动Tomcat的
+
+1.首先，SpringBoot在启动的时候会创建一个Spring容器
+
+2.在创建Spring容器过程中，会利用@ConditionOnClass技术来判断当前classpath中是否存在Tomcat依赖，如果存在则会生成一启动Tomcat的Bean
+
+3.Spring容器创建完之后，就会获取启动Tomcat的Bean，并创建Tomcat对象，并绑定端口等，然后启动Tomcat
+
+
+
+#### Spring中配置文件加载顺序
+
+优先级从⾼到低，⾼优先级的配置覆盖低优先级的配置，所有配置会形成互补配置。
+
+1. 命令⾏参数。所有的配置都可以在命令⾏上进⾏指定
+2. Java系统属性（System.getProperties()）
+3. 操作系统环境变量
+4. jar包外部的application-{profile}.properties或application.yml(带spring.profile)配置⽂件
+5. jar包内部的application-{profile}.properties或application.yml(带spring.profile)配置⽂件 再来加 载不带profile
+6. jar包外部的application.properties或application.yml(不带spring.profile)配置⽂件
+7. jar包内部的application.properties或application.yml(不带spring.profile)配置⽂件
+8. @Configuration注解类上的@PropertySource
+

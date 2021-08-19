@@ -2,3 +2,46 @@
 
 堆区和方法区是所有线程共享的，栈、本地方法栈、程序计数器是每个线程独有的
 
+
+
+#### JVM中哪些可以作为gc root
+
+什么是gc root，JVM在进行垃圾回收时，需要找到垃圾对象，也就是没有被引用的对象，但是直接找“垃圾”对象是比较耗时的，所以反过来，先找“非垃圾”对象，也就是正常对象，那么就需要从某些“根”开始去找，根据这些“根”的引用路径找到正常对象，而这些“根”有一个特征，就是他只会引用其他对象，而不会被其他对象引用，例如：栈中的本地变量，方法去中的静态变量、本地方法栈中的变量，正在运行的线程等可以作为gc root
+
+
+
+#### 你们项目如何排查JVM问题
+
+对于还在正常运⾏的系统：
+
+1. 可以使⽤jmap来查看JVM中各个区域的使⽤情况
+2. 可以通过jstack来查看线程的运⾏情况，⽐如哪些线程阻塞、是否出现了死锁
+3. 可以通过jstat命令来查看垃圾回收的情况，特别是fullgc，如果发现fullgc⽐较频繁，那么就得进⾏ 调优了
+4. 通过各个命令的结果，或者jvisualvm等⼯具来进⾏分析
+5. ⾸先，初步猜测频繁发送fullgc的原因，如果频繁发⽣fullgc但是⼜⼀直没有出现内存溢出，那么表 示fullgc实际上是回收了很多对象了，所以这些对象最好能在younggc过程中就直接回收掉，避免 这些对象进⼊到⽼年代，对于这种情况，就要考虑这些存活时间不⻓的对象是不是⽐较⼤，导致年 轻代放不下，直接进⼊到了⽼年代，尝试加⼤年轻代的⼤⼩，如果改完之后，fullgc减少，则证明 修改有效
+6. 同时，还可以找到占⽤CPU最多的线程，定位到具体的⽅法，优化这个⽅法的执⾏，看是否能避免 某些对象的创建，从⽽节省内存
+
+对于已经发⽣了OOM的系统：
+
+1. ⼀般⽣产系统中都会设置当系统发⽣了OOM时，⽣成当时的dump⽂件（- XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/base）
+2. 我们可以利⽤jsisualvm等⼯具来分析dump⽂件
+3. 根据dump⽂件找到异常的实例对象，和异常的线程（占⽤CPU⾼），定位到具体的代码
+4. 然后再进⾏详细的分析和调试
+
+总之，调优不是⼀蹴⽽就的，需要分析、推理、实践、总结、再分析，最终定位到具体的问题
+
+
+
+#### 类加载器的双亲委派模式
+
+JVM中存在三个默认的类加载器
+
+- BootstrapClassLoader
+- ExtClassLoader
+- AppClassLoader
+
+AppClassLoader的父加载器是ExtClassLoader，ExtClassLoader的父加载器是BootstrapClassLoader。
+
+JVM再加载一个类的时候，会调用APPClassLoader的loadClass方法来加载这个类，不过在这个方法中，会先使用ExtClassLoader的loadClass方法来加载类，同样ExtClassLoader的loadClass方法中会先使用BootstrapClassLoader来加载类，如果BootstrapClassLoader加载到了就直接成功，如果BootstrapClassLoader没有加载到，那么ExtClassLoader就会自己尝试加载该类，如果没有加载到，那么则会由AppClassLoader来加载这个类。
+
+所以，双亲委派指的是，JVM在加载类时，会委派给Ext和Bootstrap进行加载，如果没加载到才由自己进行加载

@@ -1,6 +1,16 @@
 # HashMap
 
-### HashMap底层：
+#### 基础特性：
+
+散列表，K-V对，利用HashCode值存储数据，只允许一条记录的k为null，不支持线程同步
+
+无序，集成AbstractMap，实现了Map，Cloneable，java.io.Serializable接口
+
+java.util包
+
+- 常用方法：添加put()，获取元素get()，删除remove()，计算大小size()，克隆clone()，判空isEmpty()，清空clear()
+
+#### HashMap底层：
 
 jdk1.7之前，HashMap是数组+链表实现的，并且采用头插法
 

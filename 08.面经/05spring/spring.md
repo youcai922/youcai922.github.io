@@ -16,6 +16,26 @@ AOP（面向切面编程）：通过@Aspect声明一个切面类，然后调用�
 
 
 
+#### Spring中的AOP怎么实现的
+
+**AOP就是基于动态代理的**，如果要代理的对象，实现了某个接口，那么Spring AOP会使用**JDK Proxy**，去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候Spring AOP会使用**Cglib** ，这时候Spring AOP会使用 **Cglib** 生成一个被代理对象的子类来作为代理
+
+#### Spring中的IOC
+
+IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对象的控制权，交由Spring框架来管理。**负责创建对象，使用依赖注入（dependency injection，DI）管理它们，将对象集中起来，配置对象，管理对象的整个生命周期。
+
+#### IOC的好处有哪些？
+
+- IOC或依赖注入最小化应用程序代码量。 
+
+- 它使测试应用程序变得容易，因为单元测试中不需要单例或JNDI查找机制。 
+
+- 以最小的代价和最少的干扰来促进松耦合。 
+
+- IOC容器支持快速实例化和懒加载。 
+
+
+
 #### MVC三层架构
 
 DAO层（data access object）：数据访问层
@@ -37,15 +57,26 @@ Controler负责请求转发，接受页面过来的参数，传给Service处理�
 ![深究Spring中Bean的生命周期](https://www.javazhiyin.com/wp-content/uploads/2019/05/java0-1558500658.jpg)
 
 1. Spring启动，查找并加载需要被Spring管理的bean，进行Bean的实例化
+
 2. Bean实例化后对将Bean的引入和值注入到Bean的属性中
+
 3. 如果Bean实现了BeanNameAware接口的话，Spring将Bean的Id传递给setBeanName()方法
+
 4. 如果Bean实现了BeanFactoryAware接口的话，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入
+
 5. 如果Bean实现了ApplicationContextAware接口的话，Spring将调用Bean的setApplicationContext()方法，将bean所在应用上下文引用传入进来。
+
 6. 如果Bean实现了BeanPostProcessor接口，Spring就将调用他们的postProcessBeforeInitialization()方法。
+
 7. 如果Bean 实现了InitializingBean接口，Spring将调用他们的afterPropertiesSet()方法。类似的，如果bean使用init-method声明了初始化方法，该方法也会被调用
+
 8. 如果Bean 实现了BeanPostProcessor接口，Spring就将调用他们的postProcessAfterInitialization()方法。
+
 9. 此时，Bean已经准备就绪，可以被应用程序使用了。他们将一直驻留在应用上下文中，直到应用上下文被销毁。
+
 10. 如果bean实现了DisposableBean接口，Spring将调用它的destory()接口方法，同样，如果bean使用了destory-method 声明销毁方法，该方法也会被调用。
+
+    [](Spring中Bean初始化过程.png)
 
 
 

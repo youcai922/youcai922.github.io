@@ -4,9 +4,31 @@ Spring是轻量级的一站式容器框架，SpringMVC是MVC模式的WEB开发�
 
 
 
-#### Spring两大核心
+#### SpringBoot的优势：
 
-IOC（控制反转）和AOP（面向切面编程）
+- 快速构建独立的Spring应用
+- 内嵌Tomcat，Jetty和Undertow服务器
+- 极少的代码生成和XML配置
+
+
+
+#### SpringBoot中常用注解及其底层实现
+
+1. @SpringBootApplication注解：这个注解标识了⼀个SpringBoot⼯程，它实际上是另外三个注解 的组合，这三个注解是：
+
+   a. @SpringBootConfiguration：这个注解实际就是⼀个@Configuration，表示启动类也是⼀个 配置类
+
+   b.@EnableAutoConfiguration：向Spring容器中导⼊了⼀个Selector，⽤来加载ClassPath下 SpringFactories中所定义的⾃动配置类，将这些⾃动加载为配置Bean
+
+   c.@ComponentScan：标识扫描路径，因为默认是没有配置实际扫描路径，所以SpringBoot扫 描的路径是启动类所在的当前⽬录
+
+2. @Bean注解：⽤来定义Bean，类似于XML中的标签，Spring在启动时，会对加了@Bean注 解的⽅法进⾏解析，将⽅法的名字做为beanName，并通过执⾏⽅法得到bean对象
+
+3. @Controller（控制器层）、@Service（业务层）、@Component（组件）、@Respository（数据访问组件DAO）、@ResponseBody、@Autowired（按照类型自动注入）、@Resource（按照名称进行注入）
+
+
+
+#### Spring两大核心----------**IOC（控制反转）和AOP（面向切面编程）**
 
 IOC(控制反转)也叫DI(依赖注入)：传统的框架中，如果我们需要使用另外一个类，我们需要new一个这个类的对象，然后再使用；而Spring中我们可以把类交给Spring容器管理，在我们使用的时候Spring就会给我们提供
 
@@ -16,13 +38,31 @@ AOP（面向切面编程）：通过@Aspect声明一个切面类，然后调用�
 
 
 
+#### Spring中的IOC
+
+IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对象的控制权，交由Spring框架来管理。**负责创建对象，使用依赖注入（dependency injection，DI）管理它们，将对象集中起来，配置对象，管理对象的整个生命周期。
+
+- 依赖注入方式：注解注入，set注入，构造器注入，静态工厂注入
+
+- ```
+  //注解注入
+  @Service
+  public class AdminService {
+      //code
+  }
+  
+  //
+  ```
+
+  
+
+
+
 #### Spring中的AOP怎么实现的
 
 **AOP就是基于动态代理的**，如果要代理的对象，实现了某个接口，那么Spring AOP会使用**JDK Proxy**，去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候Spring AOP会使用**Cglib** ，这时候Spring AOP会使用 **Cglib** 生成一个被代理对象的子类来作为代理
 
-#### Spring中的IOC
 
-IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对象的控制权，交由Spring框架来管理。**负责创建对象，使用依赖注入（dependency injection，DI）管理它们，将对象集中起来，配置对象，管理对象的整个生命周期。
 
 #### IOC的好处有哪些？
 
@@ -153,22 +193,6 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 9. ViewReslover 解析后返回具体 View。
 10. DispatcherServlet 根据 View 进⾏渲染视图（即将模型数据填充⾄视图中）。
 11. DispatcherServlet 响应⽤户。
-
-
-
-#### SpringBoot中常用注解及其底层实现
-
-1. @SpringBootApplication注解：这个注解标识了⼀个SpringBoot⼯程，它实际上是另外三个注解 的组合，这三个注解是：
-
-   a. @SpringBootConfiguration：这个注解实际就是⼀个@Configuration，表示启动类也是⼀个 配置类
-
-   b.@EnableAutoConfiguration：向Spring容器中导⼊了⼀个Selector，⽤来加载ClassPath下 SpringFactories中所定义的⾃动配置类，将这些⾃动加载为配置Bean
-
-   c.@ComponentScan：标识扫描路径，因为默认是没有配置实际扫描路径，所以SpringBoot扫 描的路径是启动类所在的当前⽬录
-
-2. @Bean注解：⽤来定义Bean，类似于XML中的标签，Spring在启动时，会对加了@Bean注 解的⽅法进⾏解析，将⽅法的名字做为beanName，并通过执⾏⽅法得到bean对象
-
-3. @Controller、@Service、@ResponseBody、@Autowired都可以说
 
 
 

@@ -2,21 +2,19 @@
 
 本项目主要是用来做个人的博客使用，用与个人知识积累和分享。
 
-我是21届的毕业生，主要从事JavaWeb后端的工作，有可能以后会做大数据方向。
+我是21届的毕业生，主要从事JavaWeb后端的工作。
 
 如果有任何问题可以联系我，我的邮箱是：2287360627@qq.com
 
 ### Java
 
-- [基础](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/java%E5%9F%BA%E7%A1%80.md)
-
-- Collection
-  - [HashMap](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/HashMap.md)
-
+- [Collection](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/Collection)
 - [java8新特性](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/java8.md)
 - [jvm](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/jvm/00jvm%E4%BB%8B%E7%BB%8D.md)
-- 数据结构
-- 设计模式
+- [多线程](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E5%A4%9A%E7%BA%BF%E7%A8%8B)
+- [数据结构](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+- [算法](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E7%AE%97%E6%B3%95)
+- [设计模式](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
   - [单例模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/00.%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.md)
   - [工程模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.md)
   - [观察者模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
@@ -26,16 +24,14 @@
 ### 数据库
 
 - 关系型数据库
-  - [mysql](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/mysql/mysql/00mysql.md)
-    - [索引](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/mysql/mysql/01mysql%E7%B4%A2%E5%BC%95.md)
+  - [mysql](https://github.com/youcai922/youcai922.github.io/tree/main/02.dataBase/mysql)
   - Oracle
 - 非关系型数据库
-  - [redis介绍](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/00redis%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%85%A5%E9%97%A8.md)
-  - [redis命令](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/01redis%E5%91%BD%E4%BB%A4.md)
-  - [redis常见异常和解决方案](https://github.com/youcai922/youcai922.github.io/blob/main/02.dataBase/redis/03redis%E5%B8%B8%E8%A7%81%E5%BC%82%E5%B8%B8%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88.md)
+  - [redis](https://github.com/youcai922/youcai922.github.io/tree/main/02.dataBase/redis)
 
 ### Linux
 
+- [安装](https://github.com/youcai922/youcai922.github.io/blob/main/03.Linux/00%E5%AE%89%E8%A3%85.md)
 - [常用命令](https://github.com/youcai922/youcai922.github.io/blob/main/03.Linux/01%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md)
 - [常用工具配置](https://github.com/youcai922/youcai922.github.io/blob/main/03.Linux/02%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE.md)
 - [问题记录](https://github.com/youcai922/youcai922.github.io/blob/main/03.Linux/03%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
@@ -62,14 +58,16 @@
 
 本人主要开发后端，前端用于记录工作时遇到的小tips
 
-- js
+- [js](https://github.com/youcai922/youcai922.github.io/blob/main/05.%E5%89%8D%E7%AB%AF/js/%E5%B7%A5%E4%BD%9C%E7%BB%8F%E9%AA%8C.md)
 
-### 面经
+### 计算机网络和操作系统
 
 TODO
 
 ### 其他
 
 - [git](https://github.com/youcai922/youcai922.github.io/blob/main/05.other/git.md)
+- [UML](https://github.com/youcai922/youcai922.github.io/blob/main/20.other/UML.md)
 - [markdown](https://github.com/youcai922/youcai922.github.io/blob/main/05.other/markdown.md)
+- [plantUML](https://github.com/youcai922/youcai922.github.io/blob/main/20.other/plantUML.md)
 

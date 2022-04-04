@@ -22,9 +22,33 @@
 
 #### 索引
 
-#### 索引失效
+- 单列索引
+
+  - 普通索引（index）：Mysql基本索引类型，允许重复和空
+  - 唯一索引（unique）：允许为空，不可以重复
+  - 主键索引（primary key）：不允许为空
+
+  ```sql
+  #添加索引
+  CREATE INDEX index_name ON table(column(length)) ; 
+  ALTER TABLE table_name ADD INDEX index_name (column(length)) ;
+  ```
+
+- 组合索引：多列组合进行索引，遵循最左前缀原则
+
+  ```sql
+  ALTER TABLE article ADD INDEX index_titme_time (title(50),time(10)) ;
+  ```
+
+- 全文索引：索引执行的优先级高
+
+- 空间索引：一般用不到
 
 #### 聚簇索引和非聚簇索引
 
+#### 
 
+#### 索引的数据结构：
+
+#### 索引失效
 

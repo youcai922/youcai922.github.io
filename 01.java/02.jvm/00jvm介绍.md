@@ -1,14 +1,17 @@
 ### JVM内存模型：
 
+![](https://img-blog.csdnimg.cn/20201021111601118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1Y2FuMTIzNA==,size_16,color_FFFFFF,t_70#pic_center)
+
 ![img](https://img-blog.csdnimg.cn/2021060411352293.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RaODQ1MTk1NDg1,size_16,color_FFFFFF,t_70)
 
-- **程序计数器**
-  - 线程私有
+- **程序计数器**（线程私有）
+  
   - 内存空间小
   - 是当前线程锁执行字节码的行号治时期，每条线程都有一个独立的程序计数器，这类内存也称为“线程私有”的内存。正在执行java方法的话，计数器记录的是虚拟机字节码指令的地址(当前指令的地址)。如果是Natice方法，则为空。
   - 是唯一一个在java虚拟机规范中没有规定任何OutOfMemoryError情况的区域
-- **虚拟机栈**
-  - 线程私有
+  
+- **虚拟机栈**（线程私有）
+  
   - 生命周期和线程一致
   - 描述的是java方法执行的内存模型：每个方法在执行的时候也会创建一个栈帧，存储了局部变量，操作数，动态链接，方法返回地址。
   - 每个方法从调用到执行完毕，对应一个栈帧在虚拟机栈中的入栈和出栈。
@@ -16,25 +19,25 @@
   - 局部变量所需内存在编译期间完成分配
   - 如果线程请求的栈深度大与虚拟机所允许的深度，则StackOverflowError
   - 虚拟机栈可以动态拓展，而扩展时无法申请到足够的资源。则OutOfMemoryError
-- **本地方法栈**
-  - 线程私有
+  
+- **本地方法栈**（线程私有）
+  
   - 和虚拟机栈类似，主要为虚拟机使用到的Native方法服务，也会抛出StackOverflowError和OutOfMemoryError
 
-- **堆**
-  - 线程共享
+- **堆**（线程共享）
+  
   - 通常来叔，是jvm管理内存中最大的一块
   - 被所有线程共享的一块内存区域，在虚拟机启动的时候创建，用于存放对象实例和数组。
   - 对可以按照可拓展实现（通过-Xmx和-Xms来控制）
   - 当队中没有内存可分配给实例，也无法再拓展时，则抛出OutOfMemoryError异常
 
-- **方法区**
+- **方法区**（线程共享）
 
-  - 线程共享
   - 被所有方法线程共享的一块内存区域。
   - 用于存储已经被虚拟机加载的类信息，常量，静态变量等
   - 这个区域的内存回收目标主要是针对常量池的回收和堆类型的卸载。
-
   
+
 
 ### 类加载机制：
 

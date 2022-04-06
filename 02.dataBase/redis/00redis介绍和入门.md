@@ -23,6 +23,8 @@
 
 **五种常用结构：字符串(String)、哈希(Hash)、列表(list)、集合(sets)和有序集合(sorted sets)**
 
+![ds](https://youcai922.github.io/99.src/img/微信截图_20220406101459.png)
+
 #### String（字符串）
 
 ```

@@ -9,15 +9,12 @@
 ### Java
 
 - [Collection](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/00.Collection)
-- [java8新特性](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/java8.md)
-- [jvm](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/jvm/00jvm%E4%BB%8B%E7%BB%8D.md)
-- [多线程](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E5%A4%9A%E7%BA%BF%E7%A8%8B)
+- [java8新特性](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/01java8%E6%96%B0%E7%89%B9%E6%80%A7)
+- [jvm](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/02.jvm)
+- [多线程](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/03.%E5%A4%9A%E7%BA%BF%E7%A8%8B)
 - [数据结构](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
-- [算法](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E7%AE%97%E6%B3%95)
-- [设计模式](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
-  - [单例模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/00.%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.md)
-  - [工程模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.md)
-  - [观察者模式](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.md)
+- [算法](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/05.%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+- [设计模式](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/04.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
 
 
 

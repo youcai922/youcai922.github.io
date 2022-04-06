@@ -8,9 +8,9 @@
 
 ### Java
 
-- [Collection](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/Collection)
-- [java8新特性](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/java8.md)
-- [jvm](https://github.com/youcai922/youcai922.github.io/blob/main/01.java/jvm/00jvm%E4%BB%8B%E7%BB%8D.md)
+- [Collection](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/00.Collection)
+- [java8新特性]https://github.com/youcai922/youcai922.github.io/tree/main/01.java/java8.md)
+- [jvm](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/jvm/00jvm%E4%BB%8B%E7%BB%8D.md)
 - [多线程](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E5%A4%9A%E7%BA%BF%E7%A8%8B)
 - [数据结构](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
 - [算法](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E7%AE%97%E6%B3%95)

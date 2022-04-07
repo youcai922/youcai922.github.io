@@ -77,7 +77,7 @@ public class Java8Tester {
 
 
 ```java
-Lambda排序
+//Lambda排序
 String[] strings={"aa","aaa","a","aaaa"};
 Comparator<String> comp = (String first,String second)->Integer.compare(first.length(),second.length);
 Arrays.sort(strings,comp);

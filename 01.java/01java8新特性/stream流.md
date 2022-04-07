@@ -484,7 +484,7 @@ public class StreamTest {
   - sorted()：自然排序，流中元素需实现Comparable接口
   - sorted(Comparator com)：Comparator排序器自定义排序
 
-```
+```java
 //将员工按工资由高到低（工资一样则按年龄由大到小）排序
 public class StreamTest {
 	public static void main(String[] args) {
@@ -527,7 +527,7 @@ public class StreamTest {
 
 流也可以进行合并、去重、限制、跳过等操作。
 
-```
+```java
 public class StreamTest {
 	public static void main(String[] args) {
 		String[] arr1 = { "a", "b", "c", "d" };

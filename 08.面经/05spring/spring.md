@@ -26,6 +26,10 @@ Spring是轻量级的一站式容器框架，SpringMVC是MVC模式的WEB开发�
 
 3. @Controller（控制器层）、@Service（业务层）、@Component（组件）、@Respository（数据访问组件DAO）、@ResponseBody、@Autowired（按照类型自动注入）、@Resource（按照名称进行注入）
 
+4. @Async异步线程，需要添加ThreadPoolConfig类并使用@EnableAsync注解开启
+
+3. @Transaction事务注解
+
 
 
 #### Spring两大核心----------**IOC（控制反转）和AOP（面向切面编程）**
@@ -44,16 +48,13 @@ IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对�
 
 - 依赖注入方式：注解注入，set注入，构造器注入，静态工厂注入
 
-- ```
+- ```java
   //注解注入
   @Service
   public class AdminService {
       //code
   }
-  
-  //
   ```
-
   
 
 
@@ -163,15 +164,16 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 #### Spring容器启动流程是什么样的
 
-1.在创建Spring容器，也就是启动Spring时：
+- 在创建Spring容器，也就是启动Spring时：
+- ⾸先会进⾏扫描，扫描得到所有的BeanDefinition对象，并存在⼀个Map中
+- 然后筛选出⾮懒加载的单例BeanDefinition进⾏创建Bean，对于多例Bean不需要在启动过程中去 进⾏创建，对于多例Bean会在每次获取Bean时利⽤BeanDefinition去创建
+- 利⽤BeanDefinition创建Bean就是Bean的创建⽣命周期，这期间包括了合并BeanDefinition、推断 构造⽅法、实例化、属性填充、初始化前、初始化、初始化后等步骤，其中AOP就是发⽣在初始化 后这⼀步骤中
+- 单例Bean创建完了之后，Spring会发布⼀个容器启动事件
+- Spring启动结束
+- 在源码中会更复杂，⽐如源码中会提供⼀些模板⽅法，让⼦类来实现，⽐如源码中还涉及到⼀些 BeanFactoryPostProcessor和BeanPostProcessor的注册，Spring的扫描就是通过 BenaFactoryPostProcessor来实现的，依赖注⼊就是通过BeanPostProcessor来实现的
+- 在Spring启动过程中还会去处理@Import等注解
 
-2. ⾸先会进⾏扫描，扫描得到所有的BeanDefinition对象，并存在⼀个Map中
-3. 然后筛选出⾮懒加载的单例BeanDefinition进⾏创建Bean，对于多例Bean不需要在启动过程中去 进⾏创建，对于多例Bean会在每次获取Bean时利⽤BeanDefinition去创建
-4. 利⽤BeanDefinition创建Bean就是Bean的创建⽣命周期，这期间包括了合并BeanDefinition、推断 构造⽅法、实例化、属性填充、初始化前、初始化、初始化后等步骤，其中AOP就是发⽣在初始化 后这⼀步骤中
-5. 单例Bean创建完了之后，Spring会发布⼀个容器启动事件
-6. Spring启动结束
-7. 在源码中会更复杂，⽐如源码中会提供⼀些模板⽅法，让⼦类来实现，⽐如源码中还涉及到⼀些 BeanFactoryPostProcessor和BeanPostProcessor的注册，Spring的扫描就是通过 BenaFactoryPostProcessor来实现的，依赖注⼊就是通过BeanPostProcessor来实现的
-8. 在Spring启动过程中还会去处理@Import等注解
+
 
 
 #### Spring中的设计模式
@@ -218,4 +220,18 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 6. jar包外部的application.properties或application.yml(不带spring.profile)配置⽂件
 7. jar包内部的application.properties或application.yml(不带spring.profile)配置⽂件
 8. @Configuration注解类上的@PropertySource
+
+
+
+#### @Autowire和@Resourese注解的区别
+
+@Resource按名字，是JDK的，@Autowired按类型，是Spring的。
+
+
+
+#### SpringBoot的拦截器
+
+
+
+#### SpringBoot的拦截器和过滤器执行顺序
 

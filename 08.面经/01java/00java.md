@@ -35,3 +35,29 @@ default：当前类和同一个包
 protected：子类、父类可以使用
 
 public：所有类，不管在不在同一个包
+
+#### 反射获取类的三种方式
+
+- 通过类全限定名进行获取Class.forName("classFullName");
+
+```java
+Class c=Class.forName("com.mysql.jdbc.Driver");
+```
+
+- 通过类型获取，另外任何数据类型都有一个静态的属性class
+
+```java
+//类型获取
+Class c=StudentInfo.class;
+//任何类都有class属性
+Class booleanClass = boolean.class;
+Class integerClass = int.class;
+```
+
+- 借助对象，使用getClass()获取
+
+```java
+StudentInfo s=new StudentInfo("Jack", 23);
+Class c=s.getClass();
+```
+

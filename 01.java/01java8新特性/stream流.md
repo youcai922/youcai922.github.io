@@ -53,7 +53,7 @@ stream3.forEach(System.out::println);
 Optional类是一个可以为null的容器对象，如果值存在则isPresent()方法就会返回true，调用get()方法就会返回该对象。
 ```
 
-
+遍历foreach、排序sorted、筛选filter、去重distinct
 
 #### 举例：
 

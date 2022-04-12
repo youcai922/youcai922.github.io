@@ -97,7 +97,7 @@ Controler负责请求转发，接受页面过来的参数，传给Service处理�
 
 10. 如果bean实现了DisposableBean接口，Spring将调用它的destory()接口方法，同样，如果bean使用了destory-method 声明销毁方法，该方法也会被调用。
 
-    [](Spring中Bean初始化过程.png)
+    ![](https://youcai922.github.io/99.src/img/Spring中Bean初始化过程.png)
 
 
 
@@ -138,7 +138,7 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 因为Spring事务是基于代理来实现的，所以某个加了@Transactional的⽅法只有是被代理对象调⽤时， 那么这个注解才会⽣效，所以如果是被代理对象来调⽤这个⽅法，那么@Transactional是不会失效的。
 
-同时如果某个⽅法是private的，那么@Transactional也会失效，因为底层cglib是基于⽗⼦类来实现 的，⼦类是不能重载⽗类的private⽅法的，所以⽆法很好的利⽤代理，也会导致@Transactianal失效
+同时如果某个⽅法是private的，那么@Transactional也会失效，因为底层cglib是基于⽗⼦类来实现 的，子类是不能重载⽗类的private⽅法的，所以⽆法很好的利⽤代理，也会导致@Transactianal失效
 
 
 
@@ -180,17 +180,17 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 #### SpringBoot是如何启动Tomcat的
 
-1.首先，SpringBoot在启动的时候会创建一个Spring容器
+- 首先，SpringBoot在启动的时候会创建一个Spring容器
 
-2.在创建Spring容器过程中，会利用@ConditionOnClass技术来判断当前classpath中是否存在Tomcat依赖，如果存在则会生成一启动Tomcat的Bean
+- 在创建Spring容器过程中，会利用@ConditionOnClass技术来判断当前classpath中是否存在Tomcat依赖，如果存在则会生成一启动Tomcat的Bean
 
-3.Spring容器创建完之后，就会获取启动Tomcat的Bean，并创建Tomcat对象，并绑定端口等，然后启动Tomcat
+- Spring容器创建完之后，就会获取启动Tomcat的Bean，并创建Tomcat对象，并绑定端口等，然后启动Tomcat
 
 
 
 #### Spring中配置文件加载顺序
 
-优先级从⾼到低，⾼优先级的配置覆盖低优先级的配置，所有配置会形成互补配置。
+优先级从高到低，⾼优先级的配置覆盖低优先级的配置，所有配置会形成互补配置。
 
 1. 命令⾏参数。所有的配置都可以在命令⾏上进⾏指定
 2. Java系统属性（System.getProperties()）
@@ -205,7 +205,7 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 #### @Autowire和@Resourese注解的区别
 
-@Resource按名字，是JDK的，@Autowired按类型，是Spring的。
+@Autowired按类型，是Spring的。@Resource按名字，是JDK的，
 
 
 

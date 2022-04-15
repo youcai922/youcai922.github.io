@@ -213,5 +213,17 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 
 
-#### SpringBoot的拦截器和过滤器执行顺序
 
+
+#### SpringBoot的拦截器和过滤器对比
+
+- 实现原理不同：过滤器是基于函数回调，拦截器是基于java反射机制。
+
+- 使用范围不同：过滤器依赖于Servlet容器，拦截器不依赖于servlet容器。因为Filter是Servlet规范中规定的，所有只能用于WEB中；而拦截器既可以用于WEB，也可以用于Application、Swing中。
+- 触发时机不同：
+  - 过滤器是在请求进入tomcat容器之后，但在请求servlet容器之前进行预处理的。请求返回结果也是，是在servlet处理完后，再返回给前端的。
+  - 拦截器可以深入到方法的前后，抛出异常前后等更深层次的程度进行处理，所以在Spring框加中优先使用拦截器。
+- 拦截的请求范围不同：过滤器可以对所有的请求起作用，但是拦截器只能对action请求起作用。
+- 注入Bean情况不同：拦截器先于ApplicationContext加载，所以拦截器无法注入Spring容器管理的Bean
+  - 解决办法：拦截器不使用@Component加载，改为使用@Configuration+@Bean加载
+- 控制执行顺序不同：过滤器用@Order注解控制执行顺序，通过@Order控制过滤器级别，值越小级别越高，越优先执行；拦截器默认的执行顺序，就是注册顺序。也可以通过Order手动设置控制，值越小越先执行。

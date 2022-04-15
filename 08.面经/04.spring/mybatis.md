@@ -32,3 +32,15 @@
 
 - Mybatis默认是没有开启二级缓存的。二级缓存是mapper级别的。 第一次调用mapper下的SQL去查询用户的信息，查询到的信息会存放代该mapper对应的二级缓存区域。 第二次调用namespace下的mapper映射文件中，相同的sql去查询用户信息，会去对应的二级缓存内取结果。
 
+#### Mybatis 和 Mybatis Plus 的区别
+- MyBatis:
+  - 所有SQL语句全部自己写
+  - 手动解析实体关系映射转换为MyBatis内部对象注入容器
+  - 不支持Lambda形式调用
+- Mybatis Plus:
+  - 强大的条件构造器,满足各类使用需求
+  - 内置的Mapper,通用的Service,少量配置即可实现单表大部分CRUD操作
+  - 支持Lambda形式调用
+  - 提供了基本的CRUD功能,连SQL语句都不需要编写
+  - 自动解析实体关系映射转换为MyBatis内部对象注入容器
+

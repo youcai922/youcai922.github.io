@@ -70,3 +70,22 @@ Class c=s.getClass();
 深拷贝：简单类型进行值传递，引用数据类型重新创建对应的对象并进行拷贝
 
 简答来说就是修改浅拷贝的引用数据类型的数据，原来的对象也会改变。但是深拷贝则不会。
+
+
+
+#### Exception与Error包结构。OOM你遇到过哪些情况，SOF你遇到过哪些情况
+
+java将可抛出（Throwable）的结构分为三类：被检查的异常（Checked Exception），运行时异常（RuntimeException），错误（Error）。
+
+- 运行时异常RuntimeException
+  - 定义：RuntimeException及子类都被称为运行时异常， 特点：java编译器不会检查它，也就是说当程序中可能出现这类异常时，倘若既“没有通过throws声明抛出它”，也“没有用try-catch语句捕获它”，还是会编译通过。
+  - 例如，除数为0时产生的ArithmeticException异常，数组越界时产生的IndexOutOfBoundsException异常，fail-fail机制产生的ConcurrentModificationException异常等，都属于运行时异常。
+
+- 堆内存溢出OutOfMemoryError（OMM）
+  - 除了程序计数器外，虚拟机内存的其他几个运行时区域都有发生OutOfMemoryError（OMM）异常的可能。
+  - Java Heap溢出，一般的异常信息：java.lang.OutOfMemoryError：Java heap spacess。 java堆用于存储对象实例，我们只要不断的创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，就会在对象数量达到最大堆容量限制后产生内存溢出异常。
+
+- 堆栈溢出 StackOverflow（SOF）
+  - StackOverflowError的定义：当应用程序递归太深而发生堆栈溢出时，抛出该错误。因为栈一般默认为1-2m，一旦出现死循环或者是大量的递归调用，在不断的压栈过程中，造成栈容量超过1m而导致溢出。
+  - 栈溢出的原因：递归调用。大量循环或死循环。全局变量是否过多。数组、List、map数据过大
+

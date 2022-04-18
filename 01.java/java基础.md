@@ -333,8 +333,14 @@ Map
  TreeMap
  跟HashMap的区别
 
-Throwable
- Error 和 Exception
+## Throwable（异常）
+
+Throwable是Java中所有异常或错误的超类。Throwable包含两个字类，Exception和Error
+
+异常分类：1.被检查时异常（Checked Exception）2.运行时异常（RuntimeException）3.错误（Error）；
+
+
+
  throw 和 throws
  运行时异常
  编译时异常

@@ -44,3 +44,107 @@
   - 提供了基本的CRUD功能,连SQL语句都不需要编写
   - 自动解析实体关系映射转换为MyBatis内部对象注入容器
 
+
+
+#### Mybatis传入多个参数
+
+```xml
+//方法一：下标表示
+public User selectUser(String name,String area);
+<select id="selectUser" resultMap="BaseResultMap">
+	select * from user_info where username=#{0} and area=#{1}
+</select>
+//方法二：@param注解
+public User selectUser(@param("username")String name,@param("userarea")String area);
+<select id="selectUser">
+	select * from user_info where username=#{username} and area=#{userarea}
+</select>
+//方法三：封装为Map稽核
+```
+
+
+
+## 标签类
+
+#### sql标签
+
+```xml
+<sql id="Base_Column_List" >
+    id, user_name, password, sex, age
+</sql>
+//这个 SQL 片段可以在其它语句中使用，例如：
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select <include refid="Base_Column_List" />
+    from t_user 
+    where id = #{id,jdbcType=BIGINT}
+</select>
+```
+
+#### choose、when、otherwise标签
+
+```xml
+<!--类似Java里面的switch-->
+<select id="findActiveBlogLike" resultType="Blog">
+  SELECT * FROM t_blog WHERE state = 'ACTIVE'
+  <choose>
+    <when test="title != null">
+      AND title like #{title}
+    </when>
+    <when test="author != null and author.name != null">
+      AND author_name like #{author.name}
+    </when>
+    <otherwise>
+      AND featured = 1
+    </otherwise>
+  </choose>
+</select>
+```
+
+####  特殊字符转义<![CDATA [ ]]>
+
+#### resultMap中id和result标签有区别么
+
+这两个标签都是将结果映射到简单数据类型上。唯一不同的是id标签会标记为对象的标识符，在比较对象实例的时候使用。能够提高性能，尤其是在缓存和嵌套结果映射的时候。
+
+
+
+#### Mybatis一对多，多对多
+
+```xml
+<mapper namespace="com.test.mapping.userMapper">
+	<!--association 一对一，多对一关联查询-->
+    <select id="getClass" parameterType="int" resultMap="ClassResultMap">
+        select * from class c,teacher t where c.teacher_id=t.t_id and c.c_id=#{id}
+    </select>
+    <resultMap type="com.test.Classes" id="ClassesResultMap">
+    	<id property="id" column="c_id"/>
+        <result property="name" cloumn="c_name"/>
+        <association property="teacher" javaType="com.test.user.Teacher">
+            <id property="id" column="t_id"/>
+            <result property="name" column="t_name"/>
+        </association>
+    </resultMap>
+</mapper>
+
+<!--collection一对多关联查询，也可以实现多对多-->
+<select id="getClass2" paramterType="int" resultMap="ClassResultMap2">
+	select * from class c,teacher t,student s,where c.teacher_id=t.t_id and c_id=s.class_id and c.c_id=#{id}
+</select>
+<resultMap type="com.test.Classes" id="ClassesResultMap2">
+	<id property="id" column="c_id"/>
+    <result property="name" column="c_name"/>
+    <association porperty="teacher" javaType="com.test.Teacher">
+    	<id property="id" column="t_id"/>
+        <result property="name" column="t_name"/>
+    </association>
+    <collection porperty="student" ofType="class.test.Student">
+    	<id porperty="id" column="s_id"/>
+        <result property="name" column="s_name"/>
+    </collection>
+</resultMap>
+```
+
+
+
+
+

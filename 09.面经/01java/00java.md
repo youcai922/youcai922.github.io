@@ -1,5 +1,3 @@
-
-
 #### 抽象类和接口的区别
 
 含有abstract修饰符的class即为抽象类，abstract 类不能创建实例对象。含有abstract方法的类必须定义为abstract class，abstract class类中的方法不必是抽象的。abstract class类中定义抽象方法必须在具体(Concrete)子类中实现。所以，不能有抽象构造方法或抽象静态方法。如果子类没有实现抽象父类中的所有抽象方法，那么子类也必须定义为abstract类型。
@@ -26,6 +24,8 @@
 
 接口更多的是在系统架构设计方法发挥作用，主要用于定义模块之间的通信契约。而抽象类在代码实现方面发挥作用，可以实现代码的重用，例如，模板方法设计模式是抽象类的一个典型应用，假设某个项目的所有Servlet类都要用相同的方式进行权限判断、记录访问日志和处理异常，那么就可以定义一个抽象的基类，让所有的Servlet都继承这个抽象基类，在抽象基类的service方法中完成权限判断、记录访问日志和处理异常的代码，在各个子类中只是完成各自的业务逻辑代码。
 
+
+
 #### private、default、protected和public
 
 private：只能当前类访问
@@ -35,6 +35,73 @@ default：当前类和同一个包
 protected：子类、父类可以使用
 
 public：所有类，不管在不在同一个包
+
+
+
+#### 创建对象的有哪几种方式
+
+- new关键字
+
+- Class.newInstance
+
+  ```java
+  Person person = Person.class.newInstance();
+  ```
+
+- Constructor.newInstance
+
+  ```java
+  // 包括public的和非public的，当然也包括private的
+  Constructor<?>[] declaredConstructors = Person.class.getDeclaredConstructors();
+  // 只返回public的~~~~~~(返回结果是上面的子集)
+  Constructor<?>[] constructors = Person.class.getConstructors();
+  
+  Constructor<?> noArgsConstructor = declaredConstructors[0];
+  Constructor<?> haveArgsConstructor = declaredConstructors[1];
+  
+  noArgsConstructor.setAccessible(true); // 非public的构造必须设置true才能用于创建实例
+  Object person1 = noArgsConstructor.newInstance();
+  Object person2 = declaredConstructors[1].newInstance("fsx", 18);
+  ```
+
+- Clone方法
+
+  ```java
+  public class Person implements Cloneable {
+  	// 访问权限写为public，并且返回值写为person
+      @Override
+      public Person clone() throws CloneNotSupportedException {
+          return (Person) super.clone();
+      }
+  }
+  public class Main {
+      public static void main(String[] args) throws Exception {
+          Person person = new Person("fsx", 18);
+          Object clone = person.clone();
+          System.out.println(person);
+          System.out.println(clone);
+          System.out.println(person == clone); //false
+      }
+  }
+  ```
+
+- 反序列化
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Person person = new Person("fsx", 18);
+        byte[] bytes = SerializationUtils.serialize(person);
+        // 字节数组：可以来自网络、可以来自文件（本处直接本地模拟）
+        Object deserPerson = SerializationUtils.deserialize(bytes);
+        System.out.println(person);
+        System.out.println(deserPerson);
+        System.out.println(person == deserPerson);
+    }
+}
+```
+
+
 
 #### 反射获取类的三种方式
 
@@ -89,3 +156,30 @@ java将可抛出（Throwable）的结构分为三类：被检查的异常（Chec
   - StackOverflowError的定义：当应用程序递归太深而发生堆栈溢出时，抛出该错误。因为栈一般默认为1-2m，一旦出现死循环或者是大量的递归调用，在不断的压栈过程中，造成栈容量超过1m而导致溢出。
   - 栈溢出的原因：递归调用。大量循环或死循环。全局变量是否过多。数组、List、map数据过大
 
+
+
+#### 在 Java 中定义一个不做事且没有参数的构造方法有什么作用？
+
+在字类没有用super()来调用父类的时候，在创建字类对象的时候会调用父类中“没有参数的构造方法”。如果不声明，则会报错。
+
+解决方法是写一个空的无参构造，或者直接用super()来调用构造方法。
+
+
+
+#### jar包和war包有什么区别？
+
+jar包可以单独在jvm中运行，可以被其他项目引入调用，war包则用于web服务，需要tomcat容器运行
+
+
+
+#### final关键字，（String是final修饰的）
+
+- 修饰类，无法被继承
+- 修饰方法，无法被重写
+- 修饰变量，只能赋值一次
+
+
+
+##### 最有效率计算2*8：*
+
+##### 2<<n，左移运算符相当于*2的n次

@@ -43,8 +43,6 @@ a==c;false;
 
 
 
-
-
 #### String、StringBuffer、StringBuilder的区别
 
 - String是final修饰的，不可变，如果修改，会新生成一个字符串对象，StringBuffer和StringBuilder是可变的

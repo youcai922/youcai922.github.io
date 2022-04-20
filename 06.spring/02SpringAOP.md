@@ -54,7 +54,24 @@ public class TransactionAspect{
     //在切面执行后进行一个后置增强。
     @After("index_log()")
     public void doBefore(JoinPoint joinPoint){
-        //日志处理
+        //日志处理，通过joinPoint.getArgs()获取参数数组
+        String log_plateform = joinPoint.getArgs()[0].toString();
+        String log_transcode = joinPoint.getArgs()[1].toString();
+    }
+}
+
+//com.sitech.predeal.workflow.util.hcai.client.Client.LogAndMap
+public Map LogAndMap( String log_plateform, String log_transcode, String log_request, String log_response, String service_code, String is_syn){
+    try {
+        log_response = log_response.replaceAll("OK", "0");
+        log_response = log_response.replaceAll("ResultCode=0000", "returnCode=0");
+        String changResponse = log_response;//定义一个变量，将接口返回的信息进行赋值
+        //将接口返回的信息转换成map
+        Map map = CommonService.putMap(changResponse);
+        return map;
+    } catch (Exception e) {
+        log.error("errMesage", e);
+        return null;
     }
 }
 ```

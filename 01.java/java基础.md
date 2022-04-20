@@ -339,9 +339,15 @@ Throwable是Java中所有异常或错误的超类。Throwable包含两个字类�
 
 异常分类：1.被检查时异常（Checked Exception）2.运行时异常（RuntimeException）3.错误（Error）；
 
+#### Throw和Throws的区别
+
+- throw 是语句抛出一个异常；throws 是方法抛出一个异常；
+
+- throws可以单独使用，但throw不能；
+
+- throw要么和try-catch-finally语句配套使用，要么与throws配套使用。但throws可以单独使用，然后再由处理异常的方法捕获。
 
 
- throw 和 throws
  运行时异常
  编译时异常
  JVM 如何处理异常

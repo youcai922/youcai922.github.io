@@ -24,7 +24,7 @@ AOP（面向切面编程）：通过@Aspect声明一个切面类，然后调用�
 
 #### Spring中的IOC
 
-IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对象的控制权，交由Spring框架来管理。**负责创建对象，使用依赖注入（dependency injection，DI）管理它们，将对象集中起来，配置对象，管理对象的整个生命周期。
+IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对象的控制权，交由Spring框架来管理。**spring利用工厂模式和反射机制实现，负责创建对象，使用依赖注入（dependency injection，DI）管理它们，将对象集中起来，配置对象，管理对象的整个生命周期。
 
 - 依赖注入方式：注解注入，set注入，构造器注入，静态工厂注入
 
@@ -59,17 +59,19 @@ IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对�
 
 #### MVC三层架构
 
-DAO层（data access object）：数据访问层
+DAO层（data access object）：数据访问层（模型层）
 属于一种比较底层，比较基础的操作，具体到对于某个表的增删改查，也就是说某个DAO一定是和数据库的某一张表一一对应的，其中封装了增删改查基本操作，建议DAO只做原子操作，增删改查。
 
-Service层：
+Service层：（View视图层）
 Service层叫服务层，被称为服务，粗略的理解就是对一个或多个DAO进行的再次封装，封装成一个服务，所以这里也就不会是一个原子操作了，需要事物控制。
 
-Controler层：
+Controler层：（控制层）
 Controler负责请求转发，接受页面过来的参数，传给Service处理，接到返回值，再传给页面。
 
 总结：
 个人理解DAO面向表，Service面向业务。后端开发时先数据库设计出所有表，然后对每一张表设计出DAO层，然后根据具体的业务逻辑进一步封装DAO层成一个Service层，对外提供成一个服务。
+
+**普通三层架构：界面层（UI），逻辑层（BLL），数据访问层（DAL）**，普通的三层架构适用于所有的应用，而MVC只适用于WEB应用
 
 
 
@@ -77,27 +79,28 @@ Controler负责请求转发，接受页面过来的参数，传给Service处理�
 
 ![深究Spring中Bean的生命周期](https://www.javazhiyin.com/wp-content/uploads/2019/05/java0-1558500658.jpg)
 
-1. Spring启动，查找并加载需要被Spring管理的bean，进行Bean的实例化
+1. Spring启动，查找并加载需要被Spring管理的bean，进行Bean的实例化，如果未加载，调用createBean进行初始化
 
 2. Bean实例化后对将Bean的引入和值注入到Bean的属性中
 
-3. 如果Bean实现了BeanNameAware接口的话，Spring将Bean的Id传递给setBeanName()方法
+3. 处理 Aware相关接口接口
 
-4. 如果Bean实现了BeanFactoryAware接口的话，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入
+   1. 如果Bean实现了BeanNameAware接口的话，Spring将Bean的Id传递给setBeanName()方法
+   2. 如果Bean实现了BeanClassLoaderAware接口，调用setBeanClassLoader()方法，传入ClassLoader对象的实例。
+   3. 如果Bean实现了BeanFactoryAware接口的话，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入
+   4. 如果Bean实现了ApplicationContextAware接口的话，Spring将调用Bean的setApplicationContext()方法，将bean所在应用上下文引用传入进来。
 
-5. 如果Bean实现了ApplicationContextAware接口的话，Spring将调用Bean的setApplicationContext()方法，将bean所在应用上下文引用传入进来。
+4. 如果Bean实现了BeanPostProcessor接口，Spring就将调用他们的postProcessBeforeInitialization()方法。
 
-6. 如果Bean实现了BeanPostProcessor接口，Spring就将调用他们的postProcessBeforeInitialization()方法。
+5. 如果Bean 实现了InitializingBean接口，Spring将调用他们的afterPropertiesSet()方法。类似的，如果bean使用init-method声明了初始化方法，该方法也会被调用
 
-7. 如果Bean 实现了InitializingBean接口，Spring将调用他们的afterPropertiesSet()方法。类似的，如果bean使用init-method声明了初始化方法，该方法也会被调用
+6. 如果Bean 实现了BeanPostProcessor接口，Spring就将调用他们的postProcessAfterInitialization()方法。
 
-8. 如果Bean 实现了BeanPostProcessor接口，Spring就将调用他们的postProcessAfterInitialization()方法。
+7. 此时，Bean已经准备就绪，可以被应用程序使用了。他们将一直驻留在应用上下文中，直到应用上下文被销毁。
 
-9. 此时，Bean已经准备就绪，可以被应用程序使用了。他们将一直驻留在应用上下文中，直到应用上下文被销毁。
+8. 如果bean实现了DisposableBean接口，Spring将调用它的destory()接口方法，同样，如果bean使用了destory-method 声明销毁方法，该方法也会被调用。
 
-10. 如果bean实现了DisposableBean接口，Spring将调用它的destory()接口方法，同样，如果bean使用了destory-method 声明销毁方法，该方法也会被调用。
-
-    ![](https://youcai922.github.io/99.src/img/Spring中Bean初始化过程.png)
+   ![](https://youcai922.github.io/99.src/img/Spring中Bean初始化过程.png)
 
 
 
@@ -110,7 +113,14 @@ Spring本身没有针对Bean做线程安全处理，所以
 
 另外，Bean是不是线程安全，跟Bean的作⽤域没有关系，Bean的作⽤域只是表示Bean的⽣命周期范围，对于任何⽣命周期的Bean都是⼀个对象，这个对象是不是线程安全的，还是得看这个Bean对象本身
 
+#### Spring中Bean的作用域
 
+- Singleton：默认作用域，单例Bean，每个容器只有一个Bean的实例
+- prototype：为每一个bean请求创建一个实例。
+- request：为每一个request请求创建一个实例，在请求完成以后，bean会失效并被垃圾回收器回收。
+- session：与request范围类似，同一个session会话共享一个实例，不同会话使用不同的实例。
+- global-session：全局作用域，所有会话共享一个实例。如果想要声明让所有会话共享的存储变量的话，那么这全局变量需要存储在global-session中。
+  
 
 #### ApplicaitonContext和BeanFactory有什么区别
 
@@ -122,10 +132,10 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 1. Spring事务底层是基于数据库事务和AOP机制的
 2. ⾸先对于使⽤了@Transactional注解的Bean，Spring会创建⼀个代理对象作为Bean 
-3. 当调⽤代理对象的⽅法时，会先判断该⽅法上是否加了@Transactional注解
-4. 如果加了，那么则利⽤事务管理器创建⼀个数据库连接
+3. 当调用代理对象的⽅法时，会先判断该⽅法上是否加了@Transactional注解
+4. 如果加了，那么则利用事务管理器创建⼀个数据库连接
 5. 并且修改数据库连接的autocommit属性为false，禁⽌此连接的⾃动提交，这是实现Spring事务⾮ 常重要的⼀步
-6. 然后执⾏当前⽅法，⽅法中会执⾏sql
+6. 然后执⾏当前⽅法，⽅法中会执行sql
 7. 执⾏完当前⽅法后，如果没有出现异常就直接提交事务
 8. 如果出现了异常，并且这个异常是需要回滚的就会回滚事务，否则仍然提交事务
 9. Spring事务的隔离级别对应的就是数据库的隔离级别
@@ -209,21 +219,3 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 
 
 
-#### SpringBoot的拦截器
-
-
-
-
-
-#### SpringBoot的拦截器和过滤器对比
-
-- 实现原理不同：过滤器是基于函数回调，拦截器是基于java反射机制。
-
-- 使用范围不同：过滤器依赖于Servlet容器，拦截器不依赖于servlet容器。因为Filter是Servlet规范中规定的，所有只能用于WEB中；而拦截器既可以用于WEB，也可以用于Application、Swing中。
-- 触发时机不同：
-  - 过滤器是在请求进入tomcat容器之后，但在请求servlet容器之前进行预处理的。请求返回结果也是，是在servlet处理完后，再返回给前端的。
-  - 拦截器可以深入到方法的前后，抛出异常前后等更深层次的程度进行处理，所以在Spring框加中优先使用拦截器。
-- 拦截的请求范围不同：过滤器可以对所有的请求起作用，但是拦截器只能对action请求起作用。
-- 注入Bean情况不同：拦截器先于ApplicationContext加载，所以拦截器无法注入Spring容器管理的Bean
-  - 解决办法：拦截器不使用@Component加载，改为使用@Configuration+@Bean加载
-- 控制执行顺序不同：过滤器用@Order注解控制执行顺序，通过@Order控制过滤器级别，值越小级别越高，越优先执行；拦截器默认的执行顺序，就是注册顺序。也可以通过Order手动设置控制，值越小越先执行。

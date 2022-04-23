@@ -1,3 +1,5 @@
+![](https://youcai922.github.io/99.src/img/JVM组成.png)
+
 ### JVM内存模型：
 
 ![](https://img-blog.csdnimg.cn/20201021111601118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1Y2FuMTIzNA==,size_16,color_FFFFFF,t_70#pic_center)

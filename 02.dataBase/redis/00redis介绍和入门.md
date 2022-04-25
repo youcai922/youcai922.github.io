@@ -21,7 +21,13 @@
 
 # redis入门
 
-**五种常用结构：字符串(String)、哈希(Hash)、列表(list)、集合(sets)和有序集合(sorted sets)**
+**五种常用结构：**
+
+- 字符串(String)：整数值，embstr编码的简单动态字符串，简单动态字符串（SDS）
+- 哈希(Hash)：压缩列表，字典
+- 列表(list)：压缩列表，双端链表
+- 集合(sets)：整数集合，字典
+- 有序集合(sorted sets)：压缩列表，跳跃表和字典
 
 ![ds](https://youcai922.github.io/99.src/img/微信截图_20220406101459.png)
 

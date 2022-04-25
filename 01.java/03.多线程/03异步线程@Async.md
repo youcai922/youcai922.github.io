@@ -31,3 +31,10 @@ class TaskPoolConfig {
 }
 ```
 
+#### 拒绝策略
+
+- AbortPolicy：线程池的默认拒绝策略为AbortPolicy，即丢弃任务并抛出RejectedExecutionException异常
+- DiscardPolicy：丢弃任务，但是不抛出异常。如果线程队列已满，则后续提交的任务都会被丢弃，且是静默丢弃
+- DiscardOldestPolicy：丢弃队列最前面的任务，然后重新提交被拒绝的任务。喜新厌旧的拒绝策略。是否要采用此种拒绝策略，还得根据实际业务是否允许丢弃老任务来认真衡量。
+- CallerRunsPolicy：任务被拒绝了，则由调用线程（提交任务的线程）直接执行此任务
+

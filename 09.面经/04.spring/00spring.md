@@ -37,14 +37,6 @@ IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对�
   ```
   
 
-
-
-#### Spring中的AOP怎么实现的
-
-**AOP就是基于动态代理的**，如果要代理的对象，实现了某个接口，那么Spring AOP会使用**JDK Proxy**，去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候Spring AOP会使用**Cglib** ，这时候Spring AOP会使用 **Cglib** 生成一个被代理对象的子类来作为代理
-
-
-
 #### IOC的好处有哪些？
 
 - IOC或依赖注入最小化应用程序代码量。 
@@ -54,6 +46,12 @@ IOC：IOC是一种设计思想，就是 **将原本在程序中手动创建对�
 - 以最小的代价和最少的干扰来促进松耦合。 
 
 - IOC容器支持快速实例化和懒加载。 
+
+
+
+#### Spring中的AOP怎么实现的
+
+**AOP就是基于动态代理的**，如果要代理的对象，实现了某个接口，那么Spring AOP会使用**JDK Proxy**，去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候Spring AOP会使用**Cglib** ，这时候Spring AOP会使用 **Cglib** 生成一个被代理对象的子类来作为代理
 
 
 
@@ -124,7 +122,7 @@ Spring本身没有针对Bean做线程安全处理，所以
 
 #### ApplicaitonContext和BeanFactory有什么区别
 
-BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Bean，维护Bean，⽽ ApplicationContext继承了BeanFactory，所以ApplicationContext拥有BeanFactory所有的特点，也是⼀个Bean⼯⼚，但是ApplicationContext除开继承了BeanFactory之外，还继承了诸如 EnvironmentCapable、MessageSource、ApplicationEventPublisher等接⼝，从⽽ApplicationContext还有获取系统环境变量、国际化、事件发布等功能，这是BeanFactory所不具备的
+BeanFactory是Spring中非常核心的组件，表示Bean⼯⼚，可以⽣成Bean，维护Bean，⽽ ApplicationContext继承了BeanFactory，所以ApplicationContext拥有BeanFactory所有的特点，也是⼀个Bean工厂，但是ApplicationContext除开继承了BeanFactory之外，还继承了诸如 EnvironmentCapable、MessageSource、ApplicationEventPublisher等接⼝，从⽽ApplicationContext还有获取系统环境变量、国际化、事件发布等功能，这是BeanFactory所不具备的
 
 
 
@@ -134,7 +132,7 @@ BeanFactory是Spring中⾮常核⼼的组件，表示Bean⼯⼚，可以⽣成Be
 2. ⾸先对于使⽤了@Transactional注解的Bean，Spring会创建⼀个代理对象作为Bean 
 3. 当调用代理对象的⽅法时，会先判断该⽅法上是否加了@Transactional注解
 4. 如果加了，那么则利用事务管理器创建⼀个数据库连接
-5. 并且修改数据库连接的autocommit属性为false，禁⽌此连接的⾃动提交，这是实现Spring事务⾮ 常重要的⼀步
+5. 并且修改数据库连接的autocommit属性为false，禁⽌此连接的⾃动提交，这是实现Spring事务非常重要的⼀步
 6. 然后执⾏当前⽅法，⽅法中会执行sql
 7. 执⾏完当前⽅法后，如果没有出现异常就直接提交事务
 8. 如果出现了异常，并且这个异常是需要回滚的就会回滚事务，否则仍然提交事务

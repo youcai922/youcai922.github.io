@@ -214,7 +214,7 @@ BeanFactory是Spring中非常核心的组件，表示Bean⼯⼚，可以⽣成Be
 
 优先级从高到低，⾼优先级的配置覆盖低优先级的配置，所有配置会形成互补配置。
 
-1. 命令⾏参数。所有的配置都可以在命令⾏上进⾏指定
+1. 命令⾏参数。所有的配置都可以在命令行上进⾏指定
 2. Java系统属性（System.getProperties()）
 3. 操作系统环境变量
 4. jar包外部的application-{profile}.properties或application.yml(带spring.profile)配置⽂件

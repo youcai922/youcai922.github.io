@@ -1,0 +1,24 @@
+- 函数式接口
+- Lambda表达式
+- 方法引用/构造器一i你用
+- Stream  API
+  - 并行流
+  - 串行流
+- 接口增强
+- Optional类
+- 新的时间和日期API
+- 其他：
+  - 重复注解
+  - 类型注解
+  - 通用注解
+  - JDK的更新
+    - 集合的流式操作
+    - 并发
+    - Arrays
+    - Number和Math
+    - IO/NIO的改进
+    - Reflection获取形参名
+    - String：join()
+    - Files
+  - 新的编译工具jjs，jdps
+  - JVM中Metaspace取代PerGen空间

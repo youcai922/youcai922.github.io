@@ -20,3 +20,17 @@
 
 
 
+#### github
+
+- 查询github映射：https://www.ipaddress.com/
+
+- 将获取的ip映射配置到本地的host。
+
+- ```
+  git config --global http.sslVerify true //开启安全验证
+  git config --global user.name "UserNmae"//设置用户名
+  git config --global user.email "email@qq.com" //设置邮箱
+  ```
+
+  
+

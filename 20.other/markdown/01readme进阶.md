@@ -69,5 +69,21 @@
 
 ![](https://youcai922.github.io/99.src/img/图标转svg.png)
 
+- 徽标超链接
+
+  现在我们拥有了徽标，但是徽标点击不能够跳转到我们想要的网站，我们可以在徽标外嵌套一个超链接达到效果
+
+  [![油菜](https://img.shields.io/badge/dynamic/json?color=FE7398&label=bilibili&prefix=%E7%B2%89%E4%B8%9D%E6%95%B0%3A&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dbilibili%26queryKey%3D251889727)](https://space.bilibili.com/251889727)
+
+  ```
+  [![油菜](https://img.shields.io/badge/dynamic/json?color=FE7398&label=bilibili&prefix=%E7%B2%89%E4%B8%9D%E6%95%B0%3A&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dbilibili%26queryKey%3D251889727)](https://space.bilibili.com/251889727)
+  ```
+
+# 表情
+
+```
+:walking:      的格式在markdown中可以显示表情
+```
+
 
 

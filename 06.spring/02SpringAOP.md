@@ -61,7 +61,7 @@ public class TransactionAspect{
 }
 
 //com.sitech.predeal.workflow.util.hcai.client.Client.LogAndMap
-public Map LogAndMap( String log_plateform, String log_transcode, String log_request, String log_response, String service_code, String is_syn){
+public Map LogAndMap(String log_plateform, String log_transcode, String log_request, String log_response, String service_code, String is_syn){
     try {
         log_response = log_response.replaceAll("OK", "0");
         log_response = log_response.replaceAll("ResultCode=0000", "returnCode=0");

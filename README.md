@@ -14,9 +14,11 @@
 - [java8新特性](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/01java8%E6%96%B0%E7%89%B9%E6%80%A7)
 - [jvm](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/02.jvm)
 - [多线程](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/03.%E5%A4%9A%E7%BA%BF%E7%A8%8B)
+- [设计模式](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/04.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
 - [数据结构](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
 - [算法](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/05.%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
-- [设计模式](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/04.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
+- [IO流](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/07.IO%E6%B5%81)
+- [一些代码](https://github.com/youcai922/youcai922.github.io/tree/main/01.java/99.一些代码)
 
 
 
@@ -63,10 +65,21 @@
 
 TODO
 
+
+
+### 其他组件
+
+- [ElasticSearch](https://github.com/youcai922/youcai922.github.io/tree/main/10.%E5%85%B6%E4%BB%96%E7%BB%84%E4%BB%B6/ElasticSearch)
+- [docker](https://github.com/youcai922/youcai922.github.io/tree/main/10.%E5%85%B6%E4%BB%96%E7%BB%84%E4%BB%B6/%E5%AE%B9%E5%99%A8)
+- [消息队列](https://github.com/youcai922/youcai922.github.io/tree/main/10.%E5%85%B6%E4%BB%96%E7%BB%84%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97)
+
 ### 其他
 
 - [git](https://github.com/youcai922/youcai922.github.io/blob/main/05.other/git.md)
 - [UML](https://github.com/youcai922/youcai922.github.io/blob/main/20.other/UML.md)
 - [markdown](https://github.com/youcai922/youcai922.github.io/blob/main/05.other/markdown.md)
+- [测试相关](https://github.com/youcai922/youcai922.github.io/tree/main/20.other/%E6%B5%8B%E8%AF%95)
 - [plantUML](https://github.com/youcai922/youcai922.github.io/blob/main/20.other/plantUML.md)
+- [脚本](https://github.com/youcai922/youcai922.github.io/tree/main/20.other/%E8%84%9A%E6%9C%AC)
+- [项目国际化](https://github.com/youcai922/youcai922.github.io/tree/main/20.other/%E9%A1%B9%E7%9B%AE%E5%9B%BD%E9%99%85%E5%8C%96)
 

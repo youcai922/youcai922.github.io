@@ -76,3 +76,16 @@ public Map LogAndMap(String log_plateform, String log_transcode, String log_requ
 }
 ```
 
+
+
+
+
+```java
+// 获取目标方法上的注解
+private <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint joinPoint, Class<T> clazz) {
+    MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+    Method method = methodSignature.getMethod();
+    return method.getAnnotation(clazz);
+}
+```
+

@@ -10,8 +10,6 @@
 Optional<Integer> findFirst = list.stream().parallel().filter(x->x>6).findFirst();
 ```
 
-
-
 #### Stream的创建：
 
 - 通过java.util.collection.stream()方法用集合创建流：
@@ -43,13 +41,11 @@ Stream<Double> stream3 = Stream.generate(Math::random).limit(3);
 stream3.forEach(System.out::println);
 ```
 
-
-
 #### Stream的使用
 
 在使用Stream之前，先理解Optional
 
-```
+```java
 Optional类是一个可以为null的容器对象，如果值存在则isPresent()方法就会返回true，调用get()方法就会返回该对象。
 ```
 
@@ -112,7 +108,7 @@ public class StreamTest {
 
 #### 筛选（filter）
 
-```Java
+```java
 //筛选处集合中大与7的元素
 public class StreamTest {
 	public static void main(String[] args) {
@@ -121,9 +117,6 @@ public class StreamTest {
 		stream.filter(x -> x > 7).forEach(System.out::println);
 	}
 }
-```
-
-```Java
 //筛选员工中工资高于8000的人，并形成新的集合。 形成新集合依赖collect（收集）。
 public class StreamTest {
 	public static void main(String[] args) {
@@ -153,9 +146,6 @@ public class StreamTest {
 		System.out.println("最长的字符串：" + max.get());
 	}
 }
-```
-
-```java
 //获取Integer集合中的最大值
 public class StreamTest {
 	public static void main(String[] args) {
@@ -174,9 +164,6 @@ public class StreamTest {
 		System.out.println("自定义排序的最大值：" + max2.get());
 	}
 }
-```
-
-```java
 //获取员工共工资最高的人
 public class StreamTest {
 	public static void main(String[] args) {
@@ -192,9 +179,6 @@ public class StreamTest {
 		System.out.println("员工工资最大值：" + max.get().getSalary());
 	}
 }
-```
-
-```java 
 //计算集合中大与6的元素个数
 public class StreamTest {
 	public static void main(String[] args) {
@@ -222,9 +206,6 @@ public class StreamTest {
 		System.out.println("每个元素+3：" + intListNew);
 	}
 }
-```
-
-```java
 //将每个员工的工资+1000
 public class StreamTest {
 	public static void main(String[] args) {
@@ -254,9 +235,6 @@ public class StreamTest {
 		System.out.println("二次改动后：" + personListNew2.get(0).getName() + "-->" + personListNew.get(0).getSalary());
 	}
 }
-```
-
-```java
 //将两个字符数组合并成一个新的字符数组
 public class StreamTest {
 	public static void main(String[] args) {
@@ -276,7 +254,7 @@ public class StreamTest {
 
 #### 规约
 
-```Java
+```java
 //求Integer集合的元素之和、乘积和最大值
 public class StreamTest {
 	public static void main(String[] args) {
@@ -301,9 +279,6 @@ public class StreamTest {
 		System.out.println("list求和：" + max.get() + "," + max2);
 	}
 }
-```
-
-```Java
 //求所有员工的工资之和和最高工资。
 public class StreamTest {
 	public static void main(String[] args) {
@@ -342,7 +317,7 @@ public class StreamTest {
 
 - 归集：因为流不存储数据，那么在流中的数据完成处理之后，需要将流中的数据重新归集到新的集合里。toList、toSet和toMap比较常用，另外还有toCollection、toConcurrentMap等复杂一些的语法。
 
-```Java
+```java
 public class StreamTest {
 	public static void main(String[] args) {
 		List<Integer> list = Arrays.asList(1, 6, 3, 4, 6, 7, 9, 6, 20);
@@ -514,11 +489,17 @@ public class StreamTest {
 				return p2.getSalary() - p1.getSalary();
 			}
 		}).map(Person::getName).collect(Collectors.toList());
+		
+		//按照指定顺序排序
+		List<String> name = Arrays.asList("Sherry","Jack","Lily","Alisa","Tom");
+		perosonList.sort(Comparator.comparingInt(o->name.indexOf(o.getName()))));
 
 		System.out.println("按工资升序排序：" + newList);
 		System.out.println("按工资降序排序：" + newList2);
 		System.out.println("先按工资再按年龄升序排序：" + newList3);
 		System.out.println("先按工资再按年龄自定义降序排序：" + newList4);
+		System.out.println("按照指定字段顺序进行排序：" + personList);
+		
 	}
 }
 ```
@@ -548,6 +529,3 @@ public class StreamTest {
 	}
 }
 ```
-
-
-

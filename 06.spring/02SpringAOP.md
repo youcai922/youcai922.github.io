@@ -89,3 +89,10 @@ private <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint joinPoi
 }
 ```
 
+
+
+私有方法无法进行AOP操作
+
+静态方法无法进行AOP操作
+
+请确保切面方法的类被Spring管理

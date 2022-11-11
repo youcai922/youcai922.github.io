@@ -17,6 +17,21 @@
   ENTRYPOINT ["java","-Djava.security.egd=file:/dev./urandom","-jar","/app.jar"]
   ```
 
+
+
+```dockerfile
+FROM 10.12.135.233/base/java:1.8-alpine-withfont
+COPY --from=10.12.135.233/base/arthas:latest /opt/arthas /opt/arthas
+VOLUME /tmp
+ARG artifactId
+ARG VERSION
+ADD ./target/eem-service-1.13.4.1-RELEASE.war /eem-service.jar
+ENV JAVA_OPTS=""
+ENV JAR_FILE_NAME eem-service
+#Djava.security.egd  这个是用来防止springboot项目tomcat启动慢的问题（具体可搜索：随机数数与熵池策略）
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 /$JAR_FILE_NAME.jar" ]
+```
+
 - 运行以下命令将jar包打包为镜像（后面有一个.）
 
   docker build -f dockerfile -t oilfiled-task:v1.1 .

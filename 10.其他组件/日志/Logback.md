@@ -371,3 +371,454 @@ root节点是必选节点，用来指定最基础的日志输出级别，只有�
 level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，不能设置为INHERITED或者同义词NULL。
 
 可以包含零个或多个元素，标识这个appender将会添加到这个loger。
+
+```xml
+<root level="debug">
+  <appender-ref ref="console" />
+  <appender-ref ref="file" />
+</root>
+```
+
+#### 多环境配置
+
+< springProfile > 标签允许你自由的包含或排除基于激活的Spring profiles的配置的一部分。在< configuration >元素的任何地方都支持Profile部分。使用name属性来指定哪一个profile接受配置。多个profiles可以用一个逗号分隔的列表来指定。
+
+```xml
+<springProfile name="staging">
+    <!-- configuration to be enabled when the "staging" profile is active -->
+</springProfile>
+
+<springProfile name="dev, staging">
+    <!-- configuration to be enabled when the "dev" or "staging" profiles are active -->
+</springProfile>
+
+<springProfile name="!production">
+    <!-- configuration to be enabled when the "production" profile is not active -->
+</springProfile>
+```
+
+- 配置演示
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!--scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。-->
+  <!--debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->
+  <!--scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。-->
+  <configuration scan="true" scanPeriod="60 seconds" debug="false">
+  
+      <!-- 全局变量 -->
+      <!--日志文件保存路径-->
+      <springProperty scope="context" name="logPath" source="logging.file.path" defaultValue="logs"/>
+      <!--应用名称-->
+      <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="springBoot"/>
+  
+      <!-- 通用日志文件输出appender -->
+      <appender name="COMMON_FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+          <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
+              如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
+              的日志改名为今天的日期。即，<File> 的日志都是当天的。
+          -->
+          <File>${logPath}/${appName}.log</File>
+          <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
+          <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+              <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
+              <FileNamePattern>${logPath}/${appName}.%d{yyyy-MM-dd}.log</FileNamePattern>
+              <!--只保留最近30天的日志-->
+              <maxHistory>30</maxHistory>
+              <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
+              <totalSizeCap>1GB</totalSizeCap>
+          </rollingPolicy>
+          <!--日志输出编码格式化-->
+          <encoder>
+              <charset>UTF-8</charset>
+              <!--<pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+              <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+          </encoder>
+      </appender>
+  
+      <!-- 开发环境,多个使用逗号隔开,本地开发环境只输出控制台日志-->
+      <springProfile name="dev">
+          <!-- 本地开发控制栏彩色日志 -->
+          <!-- 彩色日志依赖的渲染类 -->
+          <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+          <conversionRule conversionWord="wex"
+                          converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+          <conversionRule conversionWord="wEx"
+                          converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+          <!-- 彩色日志格式 -->
+          <property name="CONSOLE_LOG_PATTERN"
+                    value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+  
+          <!-- Console 输出设置 -->
+          <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+              <layout>
+                  <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+              </layout>
+          </appender>
+          <!-- 控制台不打印tomcat启动过程中的JAR包扫描警告 -->
+          <logger name="o.a.tomcat.util.scan.StandardJarScanner" level="ERROR" additivity="false">
+              <appender-ref ref="CONSOLE"/>
+          </logger>
+          <!--指定最基础的日志输出级别-->
+          <root level="INFO">
+              <appender-ref ref="CONSOLE"/>
+          </root>
+      </springProfile>
+  
+      <!-- 测试环境,多个使用逗号隔开,测试环境输出INFO级别日志,只以文件形式输出-->
+      <springProfile name="test">
+          <logger name="com.xf" level="INFO" additivity="false">
+              <appender-ref ref="COMMON_FILE_LOG"/>
+          </logger>
+          <root level="INFO">
+              <appender-ref ref="COMMON_FILE_LOG"/>
+          </root>
+      </springProfile>
+  
+      <!-- 生产环境,多个使用逗号隔开,生产环境输出ERROR级别日志,只以文件形式输出-->
+      <springProfile name="prod">
+          <root level="ERROR">
+              <appender-ref ref="COMMON_FILE_LOG"/>
+          </root>
+      </springProfile>
+  
+  </configuration>
+  ```
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!--scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。-->
+  <!--debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->
+  <!--scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。-->
+  <configuration debug="false" scan="false">
+      <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue="springboot"/>
+      <property name="LOG_HOME" value="logs/${spring.application.name}"/>
+  
+      <!-- 日志格式和颜色渲染 -->
+      <!-- 彩色日志依赖的渲染类 -->
+      <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+      <conversionRule conversionWord="wex"
+                      converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+      <conversionRule conversionWord="wEx"
+                      converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+      <!-- 彩色日志格式 -->
+      <property name="CONSOLE_LOG_PATTERN"
+                value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+  
+  
+      <!-- 把日志输出到控制台-->
+      <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+          <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+          <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>debug</level>
+          </filter>
+          <encoder>
+              <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+              <charset>UTF-8</charset>
+          </encoder>
+      </appender>
+  
+  
+      <!--把debug日志输出-->
+      <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+          <file>${LOG_HOME}/debug.log</file>
+          <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>DEBUG</level>
+          </filter>
+          <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+              <!--日志文件输出的文件名-->
+              <fileNamePattern>${LOG_HOME}/debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+              <!-- 日志文件最大尺寸 -->
+              <maxFileSize>100MB</maxFileSize>
+              <!--日志文件保留天数-->
+              <MaxHistory>30</MaxHistory>
+          </rollingPolicy>
+          <encoder>
+              <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+              <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+              <charset>UTF-8</charset>
+          </encoder>
+      </appender>
+  
+  
+      <!-- 记录错误日志到单独文件 error.log -->
+      <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+          <file>${LOG_HOME}/error.log</file>
+          <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>ERROR</level>
+          </filter>
+          <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+              <!--日志文件输出的文件名-->
+              <fileNamePattern>${LOG_HOME}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+              <!-- 日志文件最大尺寸 -->
+              <maxFileSize>100MB</maxFileSize>
+              <!--日志文件保留天数-->
+              <MaxHistory>30</MaxHistory>
+          </rollingPolicy>
+          <encoder>
+              <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+              <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+              <charset>UTF-8</charset>
+          </encoder>
+      </appender>
+  
+      <!-- 记录错误日志到单独文件 info.log -->
+      <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+          <file>${LOG_HOME}/info.log</file>
+          <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>INFO</level>
+          </filter>
+          <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+              <!--日志文件输出的文件名-->
+              <fileNamePattern>${LOG_HOME}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+              <!-- 日志文件最大尺寸 -->
+              <maxFileSize>100MB</maxFileSize>
+              <!--日志文件保留天数-->
+              <MaxHistory>30</MaxHistory>
+          </rollingPolicy>
+          <encoder>
+              <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+              <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+              <charset>UTF-8</charset>
+          </encoder>
+      </appender>
+  
+      <!-- 下面配置一些第三方包的日志过滤级别，用于避免刷屏 -->
+      <logger name="org.springframework.web" level="INFO"/>
+  
+      <!-- Log日志级别从高到低排序
+      ERROR：用户程序报错，必须解决的时候使用此级别打印日志
+      WARN：警告，不会影响程序的运行，但是值得注意。
+      INFO：一般处理业务逻辑的时候使用，就跟 system.err打印一样
+      DEBUG：一般放于程序的某个关键点的地方，用于打印一个变量值或者一个方法返回的信息之类的信息
+      TRACE：一般不会使用，在日志里边也不会打印出来，好像是很低的一个日志级别。
+       -->
+  
+      <!--  定义本地环境日志级别  -->
+      <springProfile name="local">
+          <logger name="com.xf" level="DEBUG"/><!-- 定义将com.xf包下的最低级别日志信息 -->
+          <root level="INFO"><!-- 系统全局日志输出最低级别，但不包括com.xf包 -->
+              <appender-ref ref="console"/>
+          </root>
+      </springProfile>
+  
+      <!--  定义测试环境日志级别  -->
+      <springProfile name="dev">
+          <logger name="com.xf" level="DEBUG"/>
+          <root level="INFO">
+              <appender-ref ref="console"/>
+              <appender-ref ref="debug"/>
+          </root>
+      </springProfile>
+  
+  
+      <!--  定义线上环境日志级别  -->
+      <springProfile name="online">
+          <root level="INFO">
+              <appender-ref ref="error"/>
+          </root>
+      </springProfile>
+  
+  </configuration>
+  ```
+
+  
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE configuration>
+  <configuration>
+      <!--引用默认日志配置-->
+      <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+      <!--使用默认的控制台日志输出实现-->
+      <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+      <!--应用名称-->
+      <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="springBoot"/>
+      <!--日志文件保存路径-->
+      <property name="LOG_FILE_PATH" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/logs}"/>
+      <!--LogStash访问host-->
+      <springProperty name="LOG_STASH_HOST" scope="context" source="logstash.host" defaultValue="localhost"/>
+  
+      <!--DEBUG日志输出到文件-->
+      <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+          <!--输出DEBUG以上级别日志-->
+          <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>DEBUG</level>
+          </filter>
+          <encoder>
+              <!--设置为默认的文件日志格式-->
+              <pattern>${FILE_LOG_PATTERN}</pattern>
+              <charset>UTF-8</charset>
+          </encoder>
+          <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+              <!--设置文件命名格式-->
+              <fileNamePattern>${LOG_FILE_PATH}/debug/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+              <!--设置日志文件大小，超过就重新生成文件，默认10M-->
+              <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+              <!--日志文件保留天数，默认30天-->
+              <maxHistory>${LOG_FILE_MAX_HISTORY:-30}</maxHistory>
+          </rollingPolicy>
+      </appender>
+  
+      <!--ERROR日志输出到文件-->
+      <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+          <!--只输出ERROR级别的日志-->
+          <filter class="ch.qos.logback.classic.filter.LevelFilter">
+              <level>ERROR</level>
+              <onMatch>ACCEPT</onMatch>
+              <onMismatch>DENY</onMismatch>
+          </filter>
+          <encoder>
+              <!--设置为默认的文件日志格式-->
+              <pattern>${FILE_LOG_PATTERN}</pattern>
+              <charset>UTF-8</charset>
+          </encoder>
+          <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+              <!--设置文件命名格式-->
+              <fileNamePattern>${LOG_FILE_PATH}/error/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+              <!--设置日志文件大小，超过就重新生成文件，默认10M-->
+              <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+              <!--日志文件保留天数，默认30天-->
+              <maxHistory>${LOG_FILE_MAX_HISTORY:-30}</maxHistory>
+          </rollingPolicy>
+      </appender>
+  
+      <!--DEBUG日志输出到LogStash-->
+      <appender name="LOG_STASH_DEBUG" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+          <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>DEBUG</level>
+          </filter>
+          <destination>${LOG_STASH_HOST}:4560</destination>
+          <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+              <providers>
+                  <timestamp>
+                      <timeZone>Asia/Shanghai</timeZone>
+                  </timestamp>
+                  <!--自定义日志输出格式-->
+                  <pattern>
+                      <pattern>
+                          {
+                          "project": "mall",
+                          "level": "%level",
+                          "service": "${APP_NAME:-}",
+                          "pid": "${PID:-}",
+                          "thread": "%thread",
+                          "class": "%logger",
+                          "message": "%message",
+                          "stack_trace": "%exception{20}"
+                          }
+                      </pattern>
+                  </pattern>
+              </providers>
+          </encoder>
+      </appender>
+  
+      <!--ERROR日志输出到LogStash-->
+      <appender name="LOG_STASH_ERROR" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+          <filter class="ch.qos.logback.classic.filter.LevelFilter">
+              <level>ERROR</level>
+              <onMatch>ACCEPT</onMatch>
+              <onMismatch>DENY</onMismatch>
+          </filter>
+          <destination>${LOG_STASH_HOST}:4561</destination>
+          <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+              <providers>
+                  <timestamp>
+                      <timeZone>Asia/Shanghai</timeZone>
+                  </timestamp>
+                  <!--自定义日志输出格式-->
+                  <pattern>
+                      <pattern>
+                          {
+                          "project": "mall",
+                          "level": "%level",
+                          "service": "${APP_NAME:-}",
+                          "pid": "${PID:-}",
+                          "thread": "%thread",
+                          "class": "%logger",
+                          "message": "%message",
+                          "stack_trace": "%exception{20}"
+                          }
+                      </pattern>
+                  </pattern>
+              </providers>
+          </encoder>
+      </appender>
+  
+      <!--业务日志输出到LogStash-->
+      <appender name="LOG_STASH_BUSINESS" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+          <destination>${LOG_STASH_HOST}:4562</destination>
+          <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+              <providers>
+                  <timestamp>
+                      <timeZone>Asia/Shanghai</timeZone>
+                  </timestamp>
+                  <!--自定义日志输出格式-->
+                  <pattern>
+                      <pattern>
+                          {
+                          "project": "xxx",
+                          "level": "%level",
+                          "service": "${APP_NAME:-}",
+                          "pid": "${PID:-}",
+                          "thread": "%thread",
+                          "class": "%logger",
+                          "message": "%message",
+                          "stack_trace": "%exception{20}"
+                          }
+                      </pattern>
+                  </pattern>
+              </providers>
+          </encoder>
+      </appender>
+  
+      <!--接口访问记录日志输出到LogStash-->
+      <appender name="LOG_STASH_RECORD" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+          <destination>${LOG_STASH_HOST}:4563</destination>
+          <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+              <providers>
+                  <timestamp>
+                      <timeZone>Asia/Shanghai</timeZone>
+                  </timestamp>
+                  <!--自定义日志输出格式-->
+                  <pattern>
+                      <pattern>
+                          {
+                          "project": "xxx",
+                          "level": "%level",
+                          "service": "${APP_NAME:-}",
+                          "class": "%logger",
+                          "message": "%message"
+                          }
+                      </pattern>
+                  </pattern>
+              </providers>
+          </encoder>
+      </appender>
+  
+      <!--控制框架输出日志-->
+      <logger name="org.slf4j" level="INFO"/>
+      <logger name="springfox" level="INFO"/>
+      <logger name="io.swagger" level="INFO"/>
+      <logger name="org.springframework" level="INFO"/>
+      <logger name="org.hibernate.validator" level="INFO"/>
+  
+  
+      <logger name="com.xf.common.log.WebLogAspect" level="DEBUG">
+          <appender-ref ref="LOG_STASH_RECORD"/>
+      </logger>
+  
+      <logger name="com.xf" level="DEBUG">
+          <appender-ref ref="LOG_STASH_BUSINESS"/>
+      </logger>
+  
+      <root>
+          <appender-ref ref="CONSOLE"/>
+          <appender-ref ref="FILE_DEBUG"/>
+          <appender-ref ref="FILE_ERROR"/>
+          <appender-ref ref="LOG_STASH_DEBUG"/>
+          <appender-ref ref="LOG_STASH_ERROR"/>
+      </root>
+  </configuration>
+  ```
+

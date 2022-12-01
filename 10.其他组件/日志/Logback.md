@@ -31,7 +31,7 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
 
 #### 自定义配置
 
-- 根节点<configuration>
+- 根节点< configuration >
 
   ```xml
   <configuration scan="true" scanPeriod="60 seconds" debug="false">  
@@ -43,7 +43,7 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
   - scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
   - debug：当此属性设置为ture时，将答应logback内部日志信息，实时查询logback运行状态，默认值为false
 
-- 子节点<contextName>
+- 子节点< contextName >
 
   ```xml
   <contextName>logback-demo</contextName>
@@ -57,7 +57,7 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
 
   每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用< contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。可以通过%contextName来打印日志上下文名称，一般来说我们不用这个属性，可有可无。
 
-- 子节点<property>
+- 子节点< property >
 
   ```xml
   <property name="LOG_FILE_PATH" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/logs}"/>
@@ -71,7 +71,7 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
   <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="springBoot"/>
   ```
 
-- 子节点<appender>
+- 子节点< appender>
   appender用来格式化日志输出节点，有两个属性name和class，class用来指定哪种输出策略，常用就是控制台输出策略和文件输出策略。
 
   **ConsoleAppender：**就想他的名字一样，将日志信息打印到控制台上，更加准确的说：使用System.out或者System.err方式输出，主要子标签有：encoder，target
@@ -263,7 +263,7 @@ TurboFilter的性能是优于Filter的，这是因为TurboFilter的作用时机�
 
 - SizeAndTimeBasedRollingPolicy：基于大小和时间的滚动策略
 
-- 这个策略出现的原因就是对时间滚动策略的异格补充，使其不仅按时间进行生成而且考虑到文件大小的原因，因为在基于时间的滚动策略生成的日志文件，只是对一段时间总的日志大小做了限定，这就会造成个别日志文件过大，后期传递，阅读困难的问题，所以就有了这第二个策略
+  这个策略出现的原因就是对时间滚动策略的异格补充，使其不仅按时间进行生成而且考虑到文件大小的原因，因为在基于时间的滚动策略生成的日志文件，只是对一段时间总的日志大小做了限定，这就会造成个别日志文件过大，后期传递，阅读困难的问题，所以就有了这第二个策略
 
   ```xml
   <configuration>
@@ -289,4 +289,85 @@ TurboFilter的性能是优于Filter的，这是因为TurboFilter的作用时机�
   </configuration>
   ```
 
+- FixedWindowRollingPolicy：基于固定窗口的滚动策略
+
+  这个策略的出现，应该是因为需要日志文件保持某个特定的数量，防止滚动策略导致过多的日志文件出现。这个策略出现得配合triggering，给一个什么时候日志滚动一次的控制，这部分是跟上面两个策略所不一样的地方。
+
+  ```xml
+  <configuration>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>test.log</file>
   
+      <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+        <fileNamePattern>tests.%i.log.zip</fileNamePattern>
+        <minIndex>1</minIndex>
+        <maxIndex>3</maxIndex>
+      </rollingPolicy>
+  
+      <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        <maxFileSize>5MB</maxFileSize>
+      </triggeringPolicy>
+      <encoder>
+        <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+      </encoder>
+    </appender>
+          
+    <root level="DEBUG">
+      <appender-ref ref="FILE" />
+    </root>
+  </configuration>
+  ```
+
+  注意：在RollingFileAppender中有一个file标签，也是设置文件的名称的。file可以设置 也可以不设置。如果你设置了file标签的话，他就不会转换到新的文件中。所有的日志 信息将会输入到同一个文件中。如果file标签没有设置。文件的名称就会在每一个阶段 由filenamePattern计算得出。
+
+  - fileNamePattern:这是一个强制的标签。他的值可以包含：文件的名称、适当的%d转 换说明符。这个%d说明符可以包含一个【日期和时间】的模式。其中【模式】类似于 【SimpleDateFormat】类。如果这个【模式】没有写的话，默认就是【yyyy-MM-dd】的模式。 转换文件的名称从fileNamePattern中得到
+  - **maxHistory：**这是一个可选的标签。以异步方式删除较旧的文件,例如，如果您指定每月滚动，并将maxHistory设置为6，则将保留6个月的归档文件，并删除6个月以上的文件。
+  - **totalSizeCap：**这是一个可选的标签。这是所有日志文件的总大小空间。当日志文件的空间超过了设置的最大 空间数量，就会删除旧的文件。注意：这个标签必须和maxHistory标签一起使用。
+  - **cleanHistoryOnStart:**如果设置为true，则将在追加程序启动时执行归档删除。默认情况下，此属性设置为false。
+
+#### 子节点:< loger>
+
+用来设置某一个包或者具体的某一个类的日志打印级别、以及指定< appender >。< loger >仅有一个name属性，一个可选的level和一个可选的addtivity属性。
+
+- name:用来指定受此loger约束的某一个包或者具体的某一个类。
+
+- level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，还有一个特俗值INHERITED或者同义词NULL，代表强制执行上级的级别。如果未设置此属性，那么当前loger将会继承上级的级别。
+
+addtivity:是否向上级loger传递打印信息。默认是true。
+
+##### loger在实际使用的时候有两种情况
+
+- 带有loger的配置，不指定级别，不指定appender
+
+  ```xml
+  <logger name="com.xf.controller.TestLogController"/>
+  ```
+
+  将TestLogController类的日志的打印，但是并没有设置打印级别，所以继承他的上级的日志级别info，没有设置addtivity，默认为true，将此loger的打印信息向上级传递，没有设置appender，此loger本身不打印任何信息。
+
+  < root level=“info”>将root的打印级别设置为“info”，指定了名字为“console”的appender。当执行com.xf.controller.TestLogController类的testLog方法时，所以首先执行< logger name=“com.xf.controller.TestLogController”/>，将级别为“info”及大于“info”的日志信息传递给root，本身并不打印；root接到下级传递的信息，交给已经配置好的名为“console”的appender处理，“console” appender 将信息打印到控制台；
+
+- 带有多个loger的配置，指定级别，指定appender
+
+  ```xml
+  <configuration>
+      <logger name="com.xf.controller.TestLogController" level="WARN" additivity="false">
+          <appender-ref ref="console"/>
+      </logger>
+  </configuration>
+  ```
+
+  控制com.xf.controller.TestLogController类的日志打印，打印级别为“WARN”;additivity属性为false，表示此loger的打印信息不再向上级传递;指定了名字为“console”的appender;
+
+  这时候执行com.xf.controller.TestLogController类的login方法时，先执行< logger name=“com.xf.controller.TestLogController” level=“WARN” additivity=“false”>,将级别为“WARN”及大于“WARN”的日志信息交给此loger指定的名为“console”的appender处理，在控制台中打出日志，不再向上级root传递打印信息。
+
+  注：当然如果你把additivity="false"改成additivity="true"的话，就会打印两次，因为打印信息向上级传递，logger本身打印一次，root接到后又打印一次。
+  
+
+#### 子节点:< root >
+
+root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性。level默认是DEBUG。
+
+level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，不能设置为INHERITED或者同义词NULL。
+
+可以包含零个或多个元素，标识这个appender将会添加到这个loger。

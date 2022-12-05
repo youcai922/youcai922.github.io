@@ -10,11 +10,6 @@ Logback是SpringBoot内置的日志处理框架。spring-boot-start包含的spri
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-Base logback configuration provided for compatibility with Spring Boot 1.1
--->
-
 <included>
 	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
@@ -25,6 +20,26 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
 		<appender-ref ref="FILE" />
 	</root>
 </included>
+```
+
+#### 日志格式配置参数说明
+
+```
+%c 输出logger名称
+%C 输出类名
+%d{HH:mm:ss.SSS} 表示输出到毫秒的时间
+%t 输出当前线程名称
+%-5level 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0
+%logger 输出logger名称，因为Root Logger没有名称，所以没有输出
+%msg 日志文本
+%n 换行
+其他常用的占位符有：
+%F 输出所在的类文件名，如Log4j2Test.java
+%L 输出行号
+%M或%method 输出所在方法名
+%l 输出完整的错误位置, 包括类名、方法名、文件名、行数
+%p 该条日志的优先级
+%replace{pattern}{regex}{substitution} 将pattern的输出结果pattern按照正则表达式regex替换成substitution
 ```
 
 

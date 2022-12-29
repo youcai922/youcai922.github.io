@@ -1,3 +1,49 @@
+#### _cat查看信息
+
+```
+GET /_cat/health   		查看集群健康状态、
+GET /_cat/master 		查看主节点信息
+GET /_cat/indices 		查看索引信息
+GET /_cat/allocation
+GET /_cat/shards
+GET /_cat/shards/{index}
+GET /_cat/master
+GET /_cat/nodes			查看集群中的节点信息
+GET /_cat/tasks
+GET /_cat/indices
+GET /_cat/indices/{index}
+GET /_cat/segments
+GET /_cat/segments/{index}
+GET /_cat/count
+GET /_cat/count/{index}
+GET /_cat/recovery
+GET /_cat/recovery/{index}
+GET /_cat/health
+GET /_cat/pending_tasks
+GET /_cat/aliases
+GET /_cat/aliases/{alias}
+GET /_cat/thread_pool
+GET /_cat/thread_pool/{thread_pools}
+GET /_cat/plugins
+GET /_cat/fielddata
+GET /_cat/fielddata/{fields}
+GET /_cat/nodeattrs
+GET /_cat/repositories
+GET /_cat/snapshots/{repository}
+GET /_cat/templates
+```
+
+- 使用
+
+  `GET /_cat/health		请求查看集群健康状态
+  GET /_cat/health?v		查看集群健康状态，带表头
+  GET /_cat/health?help	获取帮助，每个参数的解释
+  GET /_cat/health?h=epoch,timestamp&v    	返回指定列信息`
+
+
+
+
+
 ```json
 #查询所有索引信息
 GET _search

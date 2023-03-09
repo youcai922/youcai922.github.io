@@ -95,4 +95,6 @@ private <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint joinPoi
 
 静态方法无法进行AOP操作
 
+内部方法无法进行AOP操作：比如在一个类中，Controller调用了Service的A方法，这个时候A方法可以使用切面，service的A调用了这个service的B，B不可以用使用切面
+
 请确保切面方法的类被Spring管理

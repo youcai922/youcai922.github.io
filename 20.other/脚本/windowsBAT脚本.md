@@ -15,3 +15,9 @@ start "" "E:\work\software\ideaUI\pojie\永久激活方式(请解压，资料在
 pause
 ```
 
+
+
+```
+netstat -ano |find /i /c "CLOSE_WAIT"
+```
+

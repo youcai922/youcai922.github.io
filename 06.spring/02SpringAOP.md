@@ -38,8 +38,8 @@ public class TransactionAspect{
     public void after(){
         System.out.printf("后置增强，比如关闭连接对象。。。");
     }
-    @AfterRetruning("execution(* com.test.service.impl.UserServiceImpl.*(..))")
-    public void afterReturning(){
+    @AfterReturning(returning = "ret", pointcut = "index_log()")
+    public void afterReturning(Object ret){
         System.out.printf("返回通知，比如提交事务。。。");
     }
     @AfterThrowing("execution(* com.test.service.impl.UserServiceImpl.*(..))")

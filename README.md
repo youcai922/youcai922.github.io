@@ -84,3 +84,6 @@ TODO
 - [项目国际化](https://github.com/youcai922/youcai922.github.io/tree/main/20.other/%E9%A1%B9%E7%9B%AE%E5%9B%BD%E9%99%85%E5%8C%96)
 - [chrome浏览器](https://github.com/youcai922/youcai922.github.io/tree/main/20.other/chrome浏览器.md)
 
+
+
+idea:仿照octotree的这个功能制作谷歌的书签页功能模块，界面类似手机的文件夹

@@ -140,8 +140,6 @@ env.execute();
 
 
 
-
-
 ## 5.2源算子（Source）
 
 ​		创建环境之后，就可以构建数据处理的业务逻辑了。想要处理数据，先得有数据，所以首要任务就是把数据读进来。Flink可以从各种来源获取数据，然后构建DataStream进行转换处理。一般将数据的输入来源成为数据源（data source），而读取数据的算子就是源算子（source operator）。所以，source就是我们整个处理程序的输入端。
@@ -327,7 +325,6 @@ public class SourceKafkaTest {
           Random random = new Random();    // 在指定的数据集中随机选取数据
           String[] users = {"Mary", "Alice", "Bob", "Cary"};
           String[] urls = {"./home", "./cart", "./fav", "./prod?id=1", "./prod?id=2"};
-  
           while (running) {
               ctx.collect(new Event(
                       users[random.nextInt(users.length)],
@@ -338,7 +335,6 @@ public class SourceKafkaTest {
               Thread.sleep(1000);
           }
       }
-  
       @Override
       public void cancel() {
           running = false;

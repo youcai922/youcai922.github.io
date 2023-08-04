@@ -160,6 +160,7 @@ public class StreamTest {
 				return o1.compareTo(o2);
 			}
 		});
+        
 		System.out.println("自然排序的最大值：" + max.get());
 		System.out.println("自定义排序的最大值：" + max2.get());
 	}
